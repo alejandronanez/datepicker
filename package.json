@@ -1,0 +1,29 @@
+{
+  "name": "datepicker",
+  "version": "1.0.0",
+  "description": "Datepicker",
+  "main": "src/index.ts",
+  "repository": "git@github.com:alejandronanez/datepicker.git",
+  "author": "Alejandro Nanez <alejonanez@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "awesome-typescript-loader": "^3.1.2",
+    "css-loader": "^0.26.4",
+    "eslint": "^3.17.1",
+    "eslint-config-airbnb-base": "^11.1.1",
+    "eslint-plugin-import": "^2.2.0",
+    "extract-text-webpack-plugin": "^2.1.0",
+    "html-webpack-plugin": "^2.28.0",
+    "node-sass": "^4.5.0",
+    "npm-run-all": "^4.0.2",
+    "sass-loader": "^6.0.3",
+    "style-loader": "^0.13.2",
+    "typescript": "^2.2.1",
+    "webpack": "^2.2.1",
+    "webpack-dev-server": "^2.4.1"
+  },
+  "scripts": {
+    "start": "webpack-dev-server --inline --open --colors --progress --watch --config webpack.config.js",
+    "lint": "eslint src --ext .js"
+  }
+}

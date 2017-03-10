@@ -1,0 +1,22 @@
+{
+	"extends": "airbnb-base",
+	"rules": {
+		"indent": ["error", "tab"],
+		"arrow-parens": 0,
+		"no-tabs": 0,
+		"padded-blocks": 0,
+		"comma-dangle": 0,
+		"arrow-body-style": 0,
+		"max-len": 0,
+		"func-names": 0,
+		"import/no-extraneous-dependencies": 0,
+		"import/no-unresolved": 0,
+		"import/first": 0,
+		"import/extensions": 0,
+		"import/prefer-default-export": 0
+	},
+	"env": {
+		"browser": true,
+		"node": true
+	}
+}

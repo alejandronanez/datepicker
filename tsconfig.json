@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "module": "es2015",
+        "allowJs": true,
+        "outDir": "dist",
+        "target": "es5",
+        "noImplicitAny": true,
+        "noEmitOnError": true,
+        "strictNullChecks": true,
+        "suppressExcessPropertyErrors": false,
+        "suppressImplicitAnyIndexErrors": false,
+        "allowUnreachableCode": false,
+        "allowUnusedLabels": false,
+        "noImplicitReturns": true,
+        "noFallthroughCasesInSwitch": true
+    }
+}
