@@ -5,7 +5,7 @@
         "outDir": "dist",
         "target": "es5",
         "noImplicitAny": true,
-        "noEmitOnError": true,
+        "noEmit": true,
         "strictNullChecks": true,
         "suppressExcessPropertyErrors": false,
         "suppressImplicitAnyIndexErrors": false,
