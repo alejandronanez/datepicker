@@ -1,5 +1,4 @@
 node_modules
 *.log
-.env
-public/bundle.js
-public/bundle.css
+coverage
+.vscode
