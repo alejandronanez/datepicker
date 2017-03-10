@@ -2,7 +2,10 @@ import {
 	getCurrentMonth,
 	getCurrentYear,
 	getCurrentDay,
-	getTotalDaysInAMonth
+	getTotalDaysInAMonth,
+	getMonthArray,
+	getDayInTheWeek,
+	DayItem
 } from '../date_helpers';
 
 const january2017 = new Date('2017 01 01');
@@ -23,5 +26,17 @@ describe('Date Helpers', () => {
 
 	it('getTotalDaysInAMonth should return total days in a month', () => {
 		expect(getTotalDaysInAMonth({ year: 2017, month: 2 })).toEqual(28);
+	});
+
+	it('getDayInTheWeek should return total days in a month', () => {
+		expect(getDayInTheWeek({ year: 2017, month: 2, day: 1 })).toEqual(3);
+	});
+
+	it('getMonthArray should return an array with all days in a month', () => {
+		const result = getMonthArray({ year: 2017, month: 2, day: 1 });
+
+		expect(result[0]).toBeInstanceOf(DayItem);
+		expect(result[0].isCurrentDay).toBeTruthy();
+		expect(result.length).toEqual(28);
 	});
 });

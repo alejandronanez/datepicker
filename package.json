@@ -28,8 +28,10 @@
   "scripts": {
     "start": "webpack-dev-server --inline --open --colors --progress --watch --config webpack.config.js",
     "lint": "eslint src --ext .js",
-    "test": "jest",
-    "test:watch": "jest --watch"
+    "test": "jest --no-cache",
+    "test:coverage": "jest --coverage --no-cache",
+    "test:watch": "jest --watch --no-cache",
+    "tsc": "tsc"
   },
   "jest": {
     "transform": {
@@ -43,6 +45,8 @@
     ],
     "globals": {
       "__TS_CONFIG__": "tsconfig.test.json"
-    }
+    },
+    "collectCoverageFrom" : ["src/**/*.{ts}", "!**/node_modules/**", "!**/vendor/**"],
+    "coverageDirectory": "coverage"
   }
 }
