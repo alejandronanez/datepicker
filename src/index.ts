@@ -1,11 +1,12 @@
-import {
-	getMonthArray,
-	getMonthFirstWeek,
-	getMonthLastWeek
-} from './lib/date_helpers';
+import { partial, flowRight } from 'lodash';
 
-const currentMonth = getMonthArray(2017, 2, 10);
-const monthArrayFirstWeek = getMonthFirstWeek(currentMonth, 2, 2017);
-const completeMonthData = getMonthLastWeek(monthArrayFirstWeek);
+import { getFullMonth } from './lib/date_helpers';
 
-console.log(completeMonthData);
+
+const currentMonth = getFullMonth({
+	year: 2017,
+	month: 2,
+	day: 10
+});
+
+console.log(currentMonth);

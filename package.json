@@ -48,7 +48,7 @@
       "__TS_CONFIG__": "tsconfig.test.json"
     },
     "collectCoverageFrom": [
-      "src/**/*.{ts}",
+      "src/lib/**/*.{ts}",
       "!**/node_modules/**",
       "!**/vendor/**"
     ],
