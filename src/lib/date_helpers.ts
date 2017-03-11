@@ -58,7 +58,7 @@ export function getDayInTheWeek({ year, month, day }: FullDateObj): number {
 	return new Date(year, month, day).getDay();
 };
 
-export function getMonthArray({ year, month, day }: FullDateObj): DayItem[] {
+export function getMonthArray(year: number, month: number, day: number): DayItem[] {
 	const date = new Date(year, month, day);
 	const totalDaysInMonth = getTotalDaysInAMonth({ year, month });
 	const currentDay = getCurrentDay(date);
@@ -131,5 +131,3 @@ export function completeMonthLastWeek(monthData: DayItem[]): DayItem[] {
 
 	return [...monthData, ...lastDays];
 }
-
-

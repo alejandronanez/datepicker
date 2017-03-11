@@ -35,7 +35,7 @@ describe('Date Helpers', () => {
 	});
 
 	it('getMonthArray should return an array with all days in a month', () => {
-		const result = getMonthArray({ year: 2017, month: 1, day: 28 });
+		const result = getMonthArray(2017, 1, 28);
 
 		expect(result[0]).toBeInstanceOf(DayItem);
 		expect(result[27].isCurrentDay).toBeTruthy();
