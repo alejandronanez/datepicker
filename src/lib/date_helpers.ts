@@ -75,7 +75,7 @@ export function getMonthArray(year: number, month: number, day: number): DayItem
 		));
 }
 
-export function completeMonthFirstWeek(monthData: DayItem[], currentMonth: number, currentYear: number): DayItem[] {
+export function getMonthFirstWeek(monthData: DayItem[], currentMonth: number, currentYear: number): DayItem[] {
 	const { dayOfTheWeek } = monthData[0];
 	const previousMonth = currentMonth - 1;
 
@@ -104,7 +104,7 @@ export function completeMonthFirstWeek(monthData: DayItem[], currentMonth: numbe
 	return [...firstDays, ...monthData];
 }
 
-export function completeMonthLastWeek(monthData: DayItem[]): DayItem[] {
+export function getMonthLastWeek(monthData: DayItem[]): DayItem[] {
 	const { dayOfTheWeek } = monthData[monthData.length - 1];
 
 	if (dayOfTheWeek === MAX_DAY_OF_WEEK) {

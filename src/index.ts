@@ -1,11 +1,11 @@
 import {
-	getMonthArray2,
-	completeMonthFirstWeek,
-	completeMonthLastWeek
+	getMonthArray,
+	getMonthFirstWeek,
+	getMonthLastWeek
 } from './lib/date_helpers';
 
-const monthArray = getMonthArray2(2017, 2)(10);
-const two = completeMonthFirstWeek(monthArray, 2, 2017);
-const three = completeMonthLastWeek(two);
+const currentMonth = getMonthArray(2017, 2, 10);
+const monthArrayFirstWeek = getMonthFirstWeek(currentMonth, 2, 2017);
+const completeMonthData = getMonthLastWeek(monthArrayFirstWeek);
 
-console.log(three);
+console.log(completeMonthData);

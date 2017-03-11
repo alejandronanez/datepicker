@@ -5,8 +5,8 @@ import {
 	getTotalDaysInAMonth,
 	getMonthArray,
 	getDayInTheWeek,
-	completeMonthFirstWeek,
-	completeMonthLastWeek,
+	getMonthFirstWeek,
+	getMonthLastWeek,
 	DayItem
 } from '../date_helpers';
 
@@ -42,7 +42,7 @@ describe('Date Helpers', () => {
 		expect(result.length).toEqual(28);
 	});
 
-	it('completeMonthFirstWeek should return an array with the remaining days of the month', () => {
+	it('getMonthFirstWeek should return an array with the remaining days of the month', () => {
 		const fakeDay = new DayItem({
 			dayOfTheWeek: 6,
 			dayInCalendar: 1,
@@ -52,7 +52,7 @@ describe('Date Helpers', () => {
 		const month = 3;
 		const year = 2017;
 		const fakeMonthData = [fakeDay]
-		const result = completeMonthFirstWeek(fakeMonthData, month, year);
+		const result = getMonthFirstWeek(fakeMonthData, month, year);
 
 		expect(result.length).toEqual(7);
 		expect(result[0]).toBeInstanceOf(DayItem);
@@ -62,7 +62,7 @@ describe('Date Helpers', () => {
 		expect(result[6].dayInCalendar).toEqual(1); // Day in calendar #26
 	});
 
-	it('completeMonthLastWeek should return an array with the first days of the next month', () => {
+	it('getMonthLastWeek should return an array with the first days of the next month', () => {
 		const fakeDay = new DayItem({
 			dayOfTheWeek: 0,
 			dayInCalendar: 31,
@@ -70,7 +70,7 @@ describe('Date Helpers', () => {
 			isCurrentDay: false
 		});
 		const fakeMonthData = [fakeDay]
-		const result = completeMonthLastWeek(fakeMonthData);
+		const result = getMonthLastWeek(fakeMonthData);
 
 		expect(result.length).toEqual(7);
 		expect(result[6].dayOfTheWeek).toEqual(6);
