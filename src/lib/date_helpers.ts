@@ -92,7 +92,7 @@ export function completeMonthFirstWeek(monthData: DayItem[], currentMonth: numbe
 			const dayItem = new DayItem({
 				dayOfTheWeek: index,
 				dayInCalendar: totalDaysInPreviousMonthIndex,
-				isActive: false,
+				isActive: true,
 				isCurrentDay: false
 			});
 
@@ -120,7 +120,7 @@ export function completeMonthLastWeek(monthData: DayItem[]): DayItem[] {
 			const dayItem = new DayItem({
 				dayOfTheWeek: dayIndex,
 				dayInCalendar: dayIndex,
-				isActive: false,
+				isActive: true,
 				isCurrentDay: false
 			});
 
