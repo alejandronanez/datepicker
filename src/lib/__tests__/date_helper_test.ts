@@ -63,6 +63,22 @@ describe('Date Helpers', () => {
 		expect(result[6].dayInCalendar).toBe(1); // Day in calendar #26
 	});
 
+	it('getMonthFirstWeek should return the same array if the first item is sunday', () => {
+		const fakeDay = new DayItem({
+			dayOfTheWeek: 0,
+			dayInCalendar: 1,
+			isActive: false,
+			isCurrentDay: false
+		});
+		const month = 3;
+		const year = 2017;
+		const fakeMonthData = [fakeDay]
+		const result = getMonthFirstWeek(year, month, fakeMonthData);
+
+		expect(result.length).toBe(1);
+		expect(result).toEqual(fakeMonthData);
+	});
+
 	it('getMonthLastWeek should return an array with the first days of the next month', () => {
 		const fakeDay = new DayItem({
 			dayOfTheWeek: 0,
@@ -76,6 +92,20 @@ describe('Date Helpers', () => {
 		expect(result.length).toBe(7);
 		expect(result[6].dayOfTheWeek).toBe(6);
 		expect(result[6].dayInCalendar).toBe(6);
+	});
+
+	it('getMonthLastWeek should return the same array if the last item is saturday', () => {
+		const fakeDay = new DayItem({
+			dayOfTheWeek: 6,
+			dayInCalendar: 31,
+			isActive: false,
+			isCurrentDay: false
+		});
+		const fakeMonthData = [fakeDay]
+		const result = getMonthLastWeek(fakeMonthData);
+
+		expect(result.length).toBe(1);
+		expect(result).toEqual(fakeMonthData);
 	});
 
 	it('getFullMonth should return the whole month including dates in the past and in the future for previous/next months', () => {
