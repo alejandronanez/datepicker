@@ -27,18 +27,18 @@ describe('Date Helpers', () => {
 	});
 
 	it('getTotalDaysInAMonth should return total days in a month', () => {
-		expect(getTotalDaysInAMonth({ year: 2017, month: 2 })).toEqual(28);
+		expect(getTotalDaysInAMonth({ year: 2017, month: 1 })).toEqual(28);
 	});
 
 	it('getDayInTheWeek should return total days in a month', () => {
-		expect(getDayInTheWeek({ year: 2017, month: 2, day: 1 })).toEqual(3);
+		expect(getDayInTheWeek({ year: 2017, month: 2, day: 28 })).toEqual(2);
 	});
 
 	it('getMonthArray should return an array with all days in a month', () => {
-		const result = getMonthArray({ year: 2017, month: 2, day: 1 });
+		const result = getMonthArray({ year: 2017, month: 1, day: 28 });
 
 		expect(result[0]).toBeInstanceOf(DayItem);
-		expect(result[0].isCurrentDay).toBeTruthy();
+		expect(result[27].isCurrentDay).toBeTruthy();
 		expect(result.length).toEqual(28);
 	});
 
@@ -49,7 +49,7 @@ describe('Date Helpers', () => {
 			isActive: false,
 			isCurrentDay: false
 		});
-		const month = 4;
+		const month = 3;
 		const year = 2017;
 		const fakeMonthData = [fakeDay]
 		const result = completeMonthFirstWeek(fakeMonthData, month, year);

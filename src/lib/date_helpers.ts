@@ -51,7 +51,7 @@ export function getCurrentDay(date: Date): number {
 }
 
 export function getTotalDaysInAMonth({ year, month }: DateObj): number {
-	return new Date(year, month, 0).getDate();
+	return new Date(year, month + 1, 0).getDate();
 }
 
 export function getDayInTheWeek({ year, month, day }: FullDateObj): number {
@@ -59,18 +59,18 @@ export function getDayInTheWeek({ year, month, day }: FullDateObj): number {
 };
 
 export function getMonthArray({ year, month, day }: FullDateObj): DayItem[] {
-	const date = new Date(`${year} ${month} ${day}`);
+	const date = new Date(year, month, day);
 	const totalDaysInMonth = getTotalDaysInAMonth({ year, month });
-	const currentDay = getCurrentDay(date) - 1;
+	const currentDay = getCurrentDay(date);
 
 	return Array
 		.apply(null, { length: totalDaysInMonth })
 		.map((day: null, index: number) => (
 			new DayItem({
-				dayOfTheWeek: getDayInTheWeek({ year, month, day: index }),
+				dayOfTheWeek: getDayInTheWeek({ year, month, day: index + 1 }),
 				dayInCalendar: index,
 				isActive: true,
-				isCurrentDay: index === currentDay
+				isCurrentDay: index + 1 === currentDay
 			})
 		));
 }
