@@ -68,7 +68,7 @@ export function getMonthArray({ year, month, day }: FullDateObj): DayItem[] {
 		.map((day: null, index: number) => (
 			new DayItem({
 				dayOfTheWeek: getDayInTheWeek({ year, month, day: index + 1 }),
-				dayInCalendar: index,
+				dayInCalendar: index + 1,
 				isActive: true,
 				isCurrentDay: index + 1 === currentDay
 			})
@@ -118,7 +118,7 @@ export function completeMonthLastWeek(monthData: DayItem[]): DayItem[] {
 		.apply(null, { length: arrayLength })
 		.map((day: null, index: number) => {
 			const dayItem = new DayItem({
-				dayOfTheWeek: dayIndex,
+				dayOfTheWeek: index + 1,
 				dayInCalendar: dayIndex,
 				isActive: true,
 				isCurrentDay: false
