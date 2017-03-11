@@ -8,6 +8,7 @@
   "license": "MIT",
   "devDependencies": {
     "@types/jest": "^19.2.0",
+    "@types/lodash": "^4.14.55",
     "awesome-typescript-loader": "^3.1.2",
     "css-loader": "^0.26.4",
     "eslint": "^3.17.1",
@@ -46,7 +47,15 @@
     "globals": {
       "__TS_CONFIG__": "tsconfig.test.json"
     },
-    "collectCoverageFrom" : ["src/**/*.{ts}", "!**/node_modules/**", "!**/vendor/**"],
+    "collectCoverageFrom": [
+      "src/**/*.{ts}",
+      "!src/index.ts",
+      "!**/node_modules/**",
+      "!**/vendor/**"
+    ],
     "coverageDirectory": "coverage"
+  },
+  "dependencies": {
+    "lodash": "^4.17.4"
   }
 }

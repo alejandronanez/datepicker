@@ -1,3 +1,8 @@
+import {
+	partial,
+	flowRight
+} from 'lodash';
+
 interface DateObj {
 	year: number;
 	month: number;
@@ -75,7 +80,7 @@ export function getMonthArray(year: number, month: number, day: number): DayItem
 		));
 }
 
-export function completeMonthFirstWeek(monthData: DayItem[], currentMonth: number, currentYear: number): DayItem[] {
+export function getMonthFirstWeek(currentYear: number, currentMonth: number, monthData: DayItem[]): DayItem[] {
 	const { dayOfTheWeek } = monthData[0];
 	const previousMonth = currentMonth - 1;
 
@@ -104,7 +109,7 @@ export function completeMonthFirstWeek(monthData: DayItem[], currentMonth: numbe
 	return [...firstDays, ...monthData];
 }
 
-export function completeMonthLastWeek(monthData: DayItem[]): DayItem[] {
+export function getMonthLastWeek(monthData: DayItem[]): DayItem[] {
 	const { dayOfTheWeek } = monthData[monthData.length - 1];
 
 	if (dayOfTheWeek === MAX_DAY_OF_WEEK) {
@@ -130,4 +135,15 @@ export function completeMonthLastWeek(monthData: DayItem[]): DayItem[] {
 		});
 
 	return [...monthData, ...lastDays];
+}
+
+export function getFullMonth({ year, month, day }: FullDateObj): DayItem[] {
+
+	const monthFirstWeek = partial(getMonthFirstWeek, year, month);
+	const monthLastWeek = partial(getMonthLastWeek);
+
+	return flowRight(
+		monthLastWeek,
+		monthFirstWeek
+	)(getMonthArray(year, month, day));
 }
