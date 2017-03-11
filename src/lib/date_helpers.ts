@@ -111,18 +111,23 @@ export function completeMonthLastWeek(monthData: DayItem[]): DayItem[] {
 		return monthData;
 	}
 
-	const lastDays = [];
+	let dayIndex = dayOfTheWeek + 1;
+	const arrayLength = 7 - (dayIndex);
 
-	for (let index = dayOfTheWeek + 1; index <= 6; index++) {
-		lastDays.push(
-			new DayItem({
-				dayOfTheWeek: index,
-				dayInCalendar: index,
+	const lastDays = Array
+		.apply(null, { length: arrayLength })
+		.map((day: null, index: number) => {
+			const dayItem = new DayItem({
+				dayOfTheWeek: dayIndex,
+				dayInCalendar: dayIndex,
 				isActive: false,
 				isCurrentDay: false
-			})
-		);
-	}
+			});
+
+			dayIndex++;
+
+			return dayItem;
+		});
 
 	return [...monthData, ...lastDays];
 }
