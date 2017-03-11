@@ -16,6 +16,9 @@ interface DayItemInterface {
 	isCurrentDay: boolean;
 };
 
+const MAX_DAY_OF_WEEK: number = 6;
+const MIN_DAY_OF_WEEK: number = 0;
+
 export class DayItem implements DayItemInterface {
 	dayOfTheWeek: number;
 	dayInCalendar: number;
@@ -72,29 +75,31 @@ export function getMonthArray({ year, month, day }: FullDateObj): DayItem[] {
 		));
 }
 
-export function completeMonthFirstWeek(monthData: DayItem[], month: number, year: number): DayItem[] {
+export function completeMonthFirstWeek(monthData: DayItem[], currentMonth: number, currentYear: number): DayItem[] {
 	const { dayOfTheWeek } = monthData[0];
+	const previousMonth = currentMonth - 1;
 
-	if (dayOfTheWeek === 0) {
+	if (dayOfTheWeek === MIN_DAY_OF_WEEK) {
 		return monthData;
 	}
 
-	const totalDaysInPreviousMonth = getTotalDaysInAMonth({ year, month: month - 1 });
-	const firstDays = [];
-	let totalDaysInPreviousMonthIndex = totalDaysInPreviousMonth - (dayOfTheWeek - 1);
+	const totalDaysInPreviousMonth: number = getTotalDaysInAMonth({ year: currentYear, month: previousMonth });
+	let totalDaysInPreviousMonthIndex: number = totalDaysInPreviousMonth - (dayOfTheWeek - 1);
 
-	for (let index = 0; index < dayOfTheWeek; index++) {
-		firstDays.push(
-			new DayItem({
+	const firstDays = Array
+		.apply(null, { length: dayOfTheWeek })
+		.map((day: null, index: number) => {
+			const dayItem = new DayItem({
 				dayOfTheWeek: index,
 				dayInCalendar: totalDaysInPreviousMonthIndex,
 				isActive: false,
 				isCurrentDay: false
-			})
-		);
+			});
 
-		totalDaysInPreviousMonthIndex++;
-	}
+			totalDaysInPreviousMonthIndex++;
+
+			return dayItem;
+		});
 
 	return [...firstDays, ...monthData];
 }
@@ -102,7 +107,7 @@ export function completeMonthFirstWeek(monthData: DayItem[], month: number, year
 export function completeMonthLastWeek(monthData: DayItem[]): DayItem[] {
 	const { dayOfTheWeek } = monthData[monthData.length - 1];
 
-	if (dayOfTheWeek === 6) {
+	if (dayOfTheWeek === MAX_DAY_OF_WEEK) {
 		return monthData;
 	}
 
