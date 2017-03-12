@@ -1,17 +1,21 @@
 {
     "compilerOptions": {
-        "module": "es2015",
+        "module": "commonjs",
         "allowJs": true,
         "outDir": "dist",
         "target": "es5",
         "noImplicitAny": true,
-        "noEmit": true,
+        "noEmit": false,
         "strictNullChecks": true,
         "suppressExcessPropertyErrors": false,
         "suppressImplicitAnyIndexErrors": false,
         "allowUnreachableCode": false,
         "allowUnusedLabels": false,
         "noImplicitReturns": true,
-        "noFallthroughCasesInSwitch": true
+        "noFallthroughCasesInSwitch": true,
+        "lib": [
+            "es2015",
+            "dom"
+        ]
     }
 }

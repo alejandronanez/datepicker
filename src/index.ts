@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs/Observable';
 import { partial, flowRight } from 'lodash';
 
 import { getFullMonth } from './lib/date_helpers';
