@@ -124,8 +124,7 @@ describe('Date Helpers', () => {
 			isCurrentDay: false
 		});
 
-		expect(result.length).toBe(35);
-		expect(result[0]).toEqual(firstDay);
-		expect(result[34]).toEqual(lastDay);
+		expect(result.length).toEqual(5);
+		expect(result[0].length).toEqual(7);
 	});
 });

@@ -1,6 +1,7 @@
 import {
 	partial,
-	flowRight
+	flowRight,
+	chunk
 } from 'lodash';
 
 interface DateObj {
@@ -137,12 +138,19 @@ export function getMonthLastWeek(monthData: DayItem[]): DayItem[] {
 	return [...monthData, ...lastDays];
 }
 
-export function getFullMonth({ year, month, day }: FullDateObj): DayItem[] {
+export function splitMonthArrayInChunks(monthData: DayItem[]) {
+	// Each week have 7 days
+	return chunk(monthData, 7);
+}
+
+export function getFullMonth({ year, month, day }: FullDateObj): DayItem[][] {
 
 	const monthFirstWeek = partial(getMonthFirstWeek, year, month);
 	const monthLastWeek = partial(getMonthLastWeek);
+	const chunkMonthInWeeks = partial(splitMonthArrayInChunks);
 
 	return flowRight(
+		chunkMonthInWeeks,
 		monthLastWeek,
 		monthFirstWeek
 	)(getMonthArray(year, month, day));

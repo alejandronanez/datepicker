@@ -1,7 +1,9 @@
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { partial, flowRight } from 'lodash';
 
 import { getFullMonth } from './lib/date_helpers';
+
+const calendarElement = document.getElementById('calendar');
 
 
 const currentMonth = getFullMonth({
@@ -10,4 +12,8 @@ const currentMonth = getFullMonth({
 	day: 10
 });
 
-console.log(currentMonth);
+if (calendarElement) {
+	Observable
+		.fromEvent(calendarElement, 'click')
+		.subscribe(() => console.log(currentMonth));
+}
