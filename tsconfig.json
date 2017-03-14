@@ -17,5 +17,8 @@
             "es2015",
             "dom"
         ]
-    }
+    },
+    "files": [
+        "./node_modules/**/*.d.ts"
+    ]
 }

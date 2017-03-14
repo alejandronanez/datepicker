@@ -15,6 +15,12 @@ interface FullDateObj {
 	day: number
 };
 
+interface FullMonthObj {
+	year: number;
+	month: number;
+	day?: number
+};
+
 interface DayItemInterface {
 	dayOfTheWeek: number;
 	dayInCalendar: number;
@@ -64,10 +70,10 @@ export function getDayInTheWeek({ year, month, day }: FullDateObj): number {
 	return new Date(year, month, day).getDay();
 };
 
-export function getMonthArray(year: number, month: number, day: number): DayItem[] {
-	const date = new Date(year, month, day);
+export function getMonthArray(year: number, month: number, day: number | null): DayItem[] {
+	const date = day ? new Date(year, month, day) : new Date(year, month);
 	const totalDaysInMonth = getTotalDaysInAMonth({ year, month });
-	const currentDay = getCurrentDay(date);
+	const currentDay = day ? getCurrentDay(date): -1;
 
 	return Array
 		.apply(null, { length: totalDaysInMonth })
@@ -143,7 +149,7 @@ export function splitMonthArrayInChunks(monthData: DayItem[]) {
 	return chunk(monthData, 7);
 }
 
-export function getFullMonth({ year, month, day }: FullDateObj): DayItem[][] {
+export function getFullMonth({ year, month, day = null }: FullMonthObj): DayItem[][] {
 
 	const monthFirstWeek = partial(getMonthFirstWeek, year, month);
 	const monthLastWeek = partial(getMonthLastWeek);
