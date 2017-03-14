@@ -19,6 +19,6 @@
         ]
     },
     "files": [
-        "./node_modules/**/*.d.ts"
+        "./node_modules/dedent-js/lib/index.d.ts"
     ]
 }
