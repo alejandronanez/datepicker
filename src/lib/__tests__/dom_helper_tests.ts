@@ -17,7 +17,7 @@ describe('DOM Helpers', () => {
 			isCurrentDay: false,
 			isActive: false
 		});
-		const expectedResult = dedent`
+		const expectedResult = `
 			<td class="day is-inactive">
 				<label>
 					<input
@@ -29,9 +29,9 @@ describe('DOM Helpers', () => {
 				</label>
 			</td>
 		`;
-		const result = dedent(renderTd(dayItem));
+		const result = renderTd(dayItem);
 
-		expect(result).toEqual(expectedResult);
+		expect(dedent(result)).toEqual(dedent(expectedResult));
 	});
 
 	it('should render a td. Active day. No current day', () => {
@@ -41,7 +41,7 @@ describe('DOM Helpers', () => {
 			isCurrentDay: false,
 			isActive: true
 		});
-		const expectedResult = dedent`
+		const expectedResult = `
 			<td class="day is-active">
 				<label>
 					<input
@@ -54,8 +54,8 @@ describe('DOM Helpers', () => {
 			</td>
 		`;
 
-		const result = dedent(renderTd(dayItem));
-		expect(result).toEqual(expectedResult);
+		const result = renderTd(dayItem);
+		expect(dedent(result)).toEqual(dedent(expectedResult));
 	});
 
 	it('should render a td. Active day and Current Day', () => {
@@ -65,7 +65,7 @@ describe('DOM Helpers', () => {
 			isCurrentDay: true,
 			isActive: true
 		});
-		const expectedResult = dedent`
+		const expectedResult = `
 			<td class="day is-active is-selected">
 				<label>
 					<input
@@ -77,9 +77,9 @@ describe('DOM Helpers', () => {
 				</label>
 			</td>
 		`;
-		const result = dedent(renderTd(dayItem));
+		const result = renderTd(dayItem);
 
-		expect(result).toEqual(expectedResult);
+		expect(dedent(result)).toEqual(dedent(expectedResult));
 	});
 
 	it('should render a td. Inactive day and Current Day', () => {
@@ -89,7 +89,7 @@ describe('DOM Helpers', () => {
 			isCurrentDay: true,
 			isActive: false
 		});
-		const expectedResult = dedent`
+		const expectedResult = `
 			<td class="day is-inactive is-selected">
 				<label>
 					<input
@@ -101,8 +101,8 @@ describe('DOM Helpers', () => {
 				</label>
 			</td>
 		`;
-		const result = dedent(renderTd(dayItem));
+		const result = renderTd(dayItem);
 
-		expect(result).toEqual(expectedResult);
+		expect(dedent(result)).toEqual(dedent(expectedResult));
 	});
 });
