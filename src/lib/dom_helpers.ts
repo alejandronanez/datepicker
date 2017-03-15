@@ -1,4 +1,10 @@
 import {
+	partial,
+	flowRight,
+	chunk
+} from 'lodash';
+
+import {
 	DayItem
 } from './date_helpers';
 
@@ -31,4 +37,11 @@ export function renderTr(tds: string[]): string {
 
 export function renderTable(trs: string[]): string {
 	return `<table>${trs.join('')}</table>`;
+}
+
+export function getCalendarTableHTML(dayItems: DayItem[][]) {
+	const tds = dayItems.map(dayItem => dayItem.map(renderTd));
+	const trs = tds.map(renderTr);
+
+	return renderTable(trs);
 }
