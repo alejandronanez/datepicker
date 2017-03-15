@@ -130,8 +130,8 @@ export function getMonthLastWeek(monthData: DayItem[]): DayItem[] {
 		.apply(null, { length: arrayLength })
 		.map((day: null, index: number) => {
 			const dayItem = new DayItem({
-				dayOfTheWeek: index + 1,
-				dayInCalendar: dayIndex,
+				dayOfTheWeek: dayIndex,
+				dayInCalendar: index + 1,
 				isActive: true,
 				isCurrentDay: false
 			});
