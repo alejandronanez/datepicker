@@ -29,6 +29,10 @@ input[type='radio'] {
 	display: none;
 }
 
+#app {
+	padding: 1em;
+}
+
 .day {
 	padding: 10px;
 	text-align: center;
@@ -80,7 +84,7 @@ input[type='radio'] {
 
 	#calendar-container {
 		display: flex;
-		align-items: center;
+		// align-items: center;
 		justify-content: center;
 		position: relative;
 		z-index: 2;

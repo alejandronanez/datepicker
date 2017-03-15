@@ -8,10 +8,11 @@ import { getCalendarTableHTML } from './lib/dom_helpers';
 
 const calendarElement: HTMLElement | null = document.getElementById('calendar');
 const calendarContainer: HTMLElement | null = document.getElementById('calendar-container');
-const bodyElement: HTMLElement | null = document.querySelector('body');
-const closeButton: HTMLElement | null = document.getElementById('close-overlay')
+const bodyElement: HTMLBodyElement | null = document.querySelector('body');
+const closeButton: HTMLElement | null = document.getElementById('close-overlay');
 
-Observable
+if (calendarElement && calendarContainer && bodyElement && closeButton) {
+	Observable
 	.fromEvent(calendarElement, 'click')
 	.subscribe(() => {
 		const result = flowRight(
@@ -27,10 +28,12 @@ Observable
 		bodyElement.classList.add('is-open');
 	});
 
-Observable
-	.fromEvent(closeButton, 'click')
-	.subscribe(() => {
-		bodyElement.classList.remove('is-open');
-		calendarContainer.innerHTML = '';
-	});
+	Observable
+		.fromEvent(closeButton, 'click')
+		.subscribe(() => {
+			bodyElement.classList.remove('is-open');
+			calendarContainer.innerHTML = '';
+		});
 
+
+}
