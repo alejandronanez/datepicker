@@ -24,3 +24,11 @@ export function renderTd(dayItem: DayItem): string {
 		</td>
 	`;
 }
+
+export function renderTr(tds: string[]): string {
+	return `<tr>${tds.join('')}</tr>`;
+}
+
+export function renderTable(trs: string[]): string {
+	return `<table>${trs.join('')}</table>`;
+}

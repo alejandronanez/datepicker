@@ -1,7 +1,9 @@
 import * as dedent from 'dedent-js';
 
 import {
-	renderTd
+	renderTd,
+	renderTr,
+	renderTable
 } from '../dom_helpers';
 
 import {
@@ -104,5 +106,19 @@ describe('DOM Helpers', () => {
 		const result = renderTd(dayItem);
 
 		expect(dedent(result)).toEqual(dedent(expectedResult));
+	});
+
+	it('should render a tr', () => {
+		const result = renderTr(['<td>foo</td>', '<td>bar</td>']);
+		const expectedResult = '<tr><td>foo</td><td>bar</td></tr>'
+
+		expect(result).toEqual(expectedResult);
+	});
+
+	it('should render a table', () => {
+		const result = renderTable(['<tr><td>foo</td></tr>', '<tr><td>bar</td></tr>']);
+		const expectedResult = '<table><tr><td>foo</td></tr><tr><td>bar</td></tr></table>'
+
+		expect(result).toEqual(expectedResult);
 	});
 });
