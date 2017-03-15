@@ -1,7 +1,103 @@
-form {
-	position: relative;
+$active: #ff7070;
+$white: #fff;
+$inactive: #515151;
+$overlay: rgba(20, 20, 20, 0.1);
 
-	table {
+html {
+	height: 100%;
+}
+
+body {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	height: 100%;
+	margin: 0;
+}
+
+a {
+	color: $inactive;
+	font-size: 1.6em;
+	text-decoration: none;
+
+	&:hover  {
+		color: $inactive;
+		text-decoration: none;
+	}
+}
+
+input[type='radio'] {
+	display: none;
+}
+
+.day {
+	padding: 10px;
+	text-align: center;
+
+	&:hover,
+	&.is-selected {
+		background-color: $active;
+		color: $white;
+	}
+
+	&:hover {
+		cursor: pointer;
+	}
+
+	label {
+		&:hover {
+			cursor: pointer;
+		}
+	}
+
+	transition: .2s ease-in all;
+}
+
+#close-overlay {
+	display: none;
+}
+
+.is-open {
+
+	input[type='text'] {
+		display: none;
+	}
+
+	#app,
+	form,
+	#calendar-container {
+		height: 100%;
+	}
+
+	#overlay {
+		background-color: $overlay;
+		height: 100%;
+		left: 0;
+		position: fixed;
+		top: 0;
+		width: 100%;
+		z-index: 1;
+	}
+
+	#calendar-container {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		position: relative;
+		z-index: 2;
+	}
+
+	#close-overlay {
+		display: inline-block;
 		position: absolute;
+		top: 20px;
+		right: 20px;
+		z-index: 2;
+	}
+}
+
+// Desktop only
+@media screen and (min-width: 1024px) {
+	.is-open #close-overlay {
+		display: none;
 	}
 }

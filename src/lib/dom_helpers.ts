@@ -36,7 +36,8 @@ export function renderTr(tds: string[]): string {
 }
 
 export function renderTable(trs: string[]): string {
-	return `<table>${trs.join('')}</table>`;
+	const weekdaysRow = '<tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>';
+	return `<table>${weekdaysRow}${trs.join('')}</table>`;
 }
 
 export function getCalendarTableHTML(dayItems: DayItem[][]) {

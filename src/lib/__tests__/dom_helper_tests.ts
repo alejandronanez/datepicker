@@ -117,7 +117,8 @@ describe('DOM Helpers', () => {
 
 	it('should render a table', () => {
 		const result = renderTable(['<tr><td>foo</td></tr>', '<tr><td>bar</td></tr>']);
-		const expectedResult = '<table><tr><td>foo</td></tr><tr><td>bar</td></tr></table>'
+		const weekdaysRow = '<tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>';
+		const expectedResult = `<table>${weekdaysRow}<tr><td>foo</td></tr><tr><td>bar</td></tr></table>`
 
 		expect(result).toEqual(expectedResult);
 	});
