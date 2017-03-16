@@ -1,13 +1,19 @@
-$active: #ff7070;
 $white: #fff;
+$babyPowder: #F9FDF8;
+$desire: #E63946;
+$queenBlue: #457B9D;
+$spaceCadet: #1D3557;
+$lightBlue: #A8DADC;
 $inactive: #515151;
-$overlay: rgba(20, 20, 20, 0.1);
+$active: $desire;
+$overlay: $babyPowder;
 
 html {
 	height: 100%;
 }
 
 body {
+	background-color: $babyPowder;
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 16px;
 	height: 100%;
@@ -25,8 +31,18 @@ a {
 	}
 }
 
+input[type='text'] {
+	border: 1px solid $lightBlue;
+	width: 100%;
+	font-size: 1.5em;
+}
+
 input[type='radio'] {
 	display: none;
+}
+
+.title {
+	color: $desire;
 }
 
 #app {
@@ -96,6 +112,11 @@ input[type='radio'] {
 		top: 20px;
 		right: 20px;
 		z-index: 2;
+		font-size: 1.3em;
+		padding: 0.25em .5em;
+		background: $desire;
+		border-radius: 50%;
+		color: $babyPowder;
 	}
 }
 
