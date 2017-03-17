@@ -18,11 +18,6 @@ import {
 	generateCalendar
 } from './lib/dom_helpers';
 
-const calendarElement: HTMLElement | null = document.getElementById('calendar');
-const calendarContainer: HTMLElement | null = document.getElementById('calendar-container');
-const bodyElement: HTMLBodyElement | null = document.querySelector('body');
-const closeButton: HTMLElement | null = document.getElementById('close-overlay');
-
 type InitialState = {
 	rawDate: Date,
 	currentDay: number,
@@ -39,20 +34,20 @@ const initialState: InitialState = {
 	currentYear: getCurrentYear(initialDate)
 };
 
-const appState = new BehaviorSubject(initialState);
-const picker = appState.switchMap((state) => {
-	return Observable.never();
-});
-
-function initialDateHandler(curr: InitialState, acc: InitialState) {
-	return {...curr };
+function initialDateHandler(acc: InitialState) {
+	return { ...acc };
 }
 
-const clickCalendar = Observable
-	.fromEvent<MouseEvent>(calendarElement, 'click')
-	.map((evt: any) => evt.target.value) // fix this typing
-	.scan(initialDateHandler, initialState)
-	.map(state => {
+const calendarElement: HTMLElement | null = document.getElementById('calendar');
+const calendarContainer: HTMLElement | null = document.getElementById('calendar-container');
+const bodyElement: HTMLBodyElement | null = document.querySelector('body');
+const closeButton: HTMLElement | null = document.getElementById('close-overlay');
+
+const calendarInput$ = Observable.fromEvent(calendarElement, 'click');
+
+calendarInput$
+	// .startWith(initialState)
+	.scan((state: InitialState) => {
 		const {
 			currentDay,
 			currentMonth,
@@ -67,8 +62,48 @@ const clickCalendar = Observable
 			month: currentMonth,
 			day: currentDay
 		});
-	})
+	}, initialState)
+	// .map(state => {
+	// 	const {
+	// 		currentDay,
+	// 		currentMonth,
+	// 		currentYear
+	// 	} = state;
+
+	// 	return flowRight(
+	// 		getCalendarTableHTML,
+	// 		getFullMonth
+	// 	)({
+	// 		year: currentYear,
+	// 		month: currentMonth,
+	// 		day: currentDay
+	// 	});
+	// })
 	.subscribe((data) => generateCalendar(data, calendarContainer, bodyElement));
+
+
+// const clickCalendar = Observable
+// 	.fromEvent<MouseEvent>(calendarElement, 'click')
+// 	.map((evt: any) => evt.target.value) // fix this typing
+// 	.startWith(initialState)
+// 	.scan(initialDateHandler)
+// 	.map(state => {
+// 		const {
+// 			currentDay,
+// 			currentMonth,
+// 			currentYear
+// 		} = state;
+
+// 		return flowRight(
+// 			getCalendarTableHTML,
+// 			getFullMonth
+// 		)({
+// 			year: currentYear,
+// 			month: currentMonth,
+// 			day: currentDay
+// 		});
+// 	})
+
 
 Observable
 	.fromEvent(closeButton, 'click')
