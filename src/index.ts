@@ -52,6 +52,22 @@ const clickCalendar = Observable
 	.fromEvent<MouseEvent>(calendarElement, 'click')
 	.map((evt: any) => evt.target.value) // fix this typing
 	.scan(initialDateHandler, initialState)
+	.map(state => {
+		const {
+			currentDay,
+			currentMonth,
+			currentYear
+		} = state;
+
+		return flowRight(
+			getCalendarTableHTML,
+			getFullMonth
+		)({
+			year: currentYear,
+			month: currentMonth,
+			day: currentDay
+		});
+	})
 	.subscribe((data) => generateCalendar(data, calendarContainer, bodyElement));
 
 Observable
