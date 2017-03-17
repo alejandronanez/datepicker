@@ -45,9 +45,11 @@ const closeButton: HTMLElement | null = document.getElementById('close-overlay')
 
 const calendarInput$ = Observable.fromEvent(calendarElement, 'click');
 
+
 calendarInput$
-	// .startWith(initialState)
-	.scan((state: InitialState) => {
+	.map((evt: any) => evt.target.value) // fix this typing
+	.scan(initialDateHandler, initialState)
+	.map(state => {
 		const {
 			currentDay,
 			currentMonth,
@@ -62,47 +64,8 @@ calendarInput$
 			month: currentMonth,
 			day: currentDay
 		});
-	}, initialState)
-	// .map(state => {
-	// 	const {
-	// 		currentDay,
-	// 		currentMonth,
-	// 		currentYear
-	// 	} = state;
-
-	// 	return flowRight(
-	// 		getCalendarTableHTML,
-	// 		getFullMonth
-	// 	)({
-	// 		year: currentYear,
-	// 		month: currentMonth,
-	// 		day: currentDay
-	// 	});
-	// })
+	})
 	.subscribe((data) => generateCalendar(data, calendarContainer, bodyElement));
-
-
-// const clickCalendar = Observable
-// 	.fromEvent<MouseEvent>(calendarElement, 'click')
-// 	.map((evt: any) => evt.target.value) // fix this typing
-// 	.startWith(initialState)
-// 	.scan(initialDateHandler)
-// 	.map(state => {
-// 		const {
-// 			currentDay,
-// 			currentMonth,
-// 			currentYear
-// 		} = state;
-
-// 		return flowRight(
-// 			getCalendarTableHTML,
-// 			getFullMonth
-// 		)({
-// 			year: currentYear,
-// 			month: currentMonth,
-// 			day: currentDay
-// 		});
-// 	})
 
 
 Observable
