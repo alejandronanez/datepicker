@@ -2,7 +2,8 @@ import './scss/style.scss';
 
 import {
 	Observable,
-	BehaviorSubject
+	BehaviorSubject,
+	Subject
 } from 'rxjs';
 import { partial, flowRight } from 'lodash';
 
@@ -44,30 +45,49 @@ const bodyElement: HTMLBodyElement | null = document.querySelector('body');
 const closeButton: HTMLElement | null = document.getElementById('close-overlay');
 
 const calendarInput$ = Observable.fromEvent(calendarElement, 'click');
+const closeButton$ = Observable.fromEvent(closeButton, 'click');
 
+const getDataFromStringObj = ({ year, month, day }) => ({
+	rawDate: new Date(`${year} ${month} ${day}`),
+	currentDay: getCurrentDay(new Date(`${year} ${month} ${day}`)),
+	currentMonth: getCurrentMonth(new Date(`${year} ${month} ${day}`)),
+	currentYear: getCurrentYear(new Date(`${year} ${month} ${day}`))
+});
 
-calendarInput$
-	.map((evt: any) => evt.target.value) // fix this typing
-	.scan(initialDateHandler, initialState)
-	.map(state => {
-		const {
-			currentDay,
-			currentMonth,
-			currentYear
-		} = state;
+const getDataFromDate = (date: Date) => ({
+	rawDate: date,
+	currentDay: getCurrentDay(date),
+	currentMonth: getCurrentMonth(date),
+	currentYear: getCurrentYear(date)
+})
 
+const main$ = new Subject<Date>();
+
+const calendarData$ = main$
+	.map(getDataFromDate)
+	.map(data => {
 		return flowRight(
 			getCalendarTableHTML,
 			getFullMonth
 		)({
-			year: currentYear,
-			month: currentMonth,
-			day: currentDay
+			year: data.currentYear,
+			month: data.currentMonth,
+			day: data.currentDay
 		});
-	})
-	.subscribe((data) => generateCalendar(data, calendarContainer, bodyElement));
+	});
 
+calendarData$.subscribe(data => generateCalendar(data, calendarContainer, bodyElement));
+closeButton$.subscribe(() => closeOverlay(calendarContainer, bodyElement));
+calendarInput$.subscribe((evt: any) => { // TODO: Fix this type
+	const val = evt.target.value;
+	val ? main$.next(new Date(val)) : main$.next(new Date());
+});
 
-Observable
-	.fromEvent(closeButton, 'click')
-	.subscribe(() => closeOverlay(calendarContainer, bodyElement));
+// http://stackoverflow.com/a/27069598/1405803
+const dayClick$ = calendarData$
+	.take(1)
+	.map(elements => Observable.from(Array.from(document.querySelectorAll('.day'))))
+	.flatMap(elements => Observable.from(elements))
+	.flatMap(element => Observable.fromEvent(element, 'click'));
+
+dayClick$.subscribe(console.log);
