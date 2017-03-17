@@ -5,8 +5,16 @@ import {
 } from 'lodash';
 
 import {
-	DayItem
+	DayItem,
+	getFullMonth
 } from './date_helpers';
+
+type InitialState = {
+	rawDate: Date,
+	currentDay: number,
+	currentMonth: number,
+	currentYear: number
+}
 
 export function renderTd(dayItem: DayItem): string {
 	const tdClassNames = [
@@ -45,4 +53,31 @@ export function getCalendarTableHTML(dayItems: DayItem[][]) {
 	const trs = tds.map(renderTr);
 
 	return renderTable(trs);
+}
+
+// DOM Modification - Move this somewhere else?
+
+export function closeOverlay(calendarNode: HTMLElement, bodyNode: HTMLElement) {
+	bodyNode.classList.remove('is-open');
+	calendarNode.innerHTML = '';
+}
+
+export function generateCalendar(state: InitialState, calendarNode: HTMLElement, bodyNode: HTMLElement) {
+	const {
+		currentDay,
+		currentMonth,
+		currentYear
+	} = state;
+
+	const result = flowRight(
+		getCalendarTableHTML,
+		getFullMonth
+	)({
+		year: currentYear,
+		month: currentMonth,
+		day: currentDay
+	});
+
+	calendarNode.innerHTML = result;
+	bodyNode.classList.add('is-open');
 }

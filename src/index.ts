@@ -12,7 +12,11 @@ import {
 	getCurrentDay,
 	getCurrentYear
 } from './lib/date_helpers';
-import { getCalendarTableHTML } from './lib/dom_helpers';
+import {
+	getCalendarTableHTML,
+	closeOverlay,
+	generateCalendar
+} from './lib/dom_helpers';
 
 const calendarElement: HTMLElement | null = document.getElementById('calendar');
 const calendarContainer: HTMLElement | null = document.getElementById('calendar-container');
@@ -36,30 +40,20 @@ const initialState: InitialState = {
 };
 
 const appState = new BehaviorSubject(initialState);
+const picker = appState.switchMap((state) => {
+	return Observable.never();
+});
 
-if (calendarElement && calendarContainer && bodyElement && closeButton) {
-	Observable
-	.fromEvent(calendarElement, 'click')
-	.subscribe(() => {
-		const result = flowRight(
-			getCalendarTableHTML,
-			getFullMonth
-		)({
-			year: 2017,
-			month: 2,
-			day: 10
-		});
-
-		calendarContainer.innerHTML = result;
-		bodyElement.classList.add('is-open');
-	});
-
-	Observable
-		.fromEvent(closeButton, 'click')
-		.subscribe(() => {
-			bodyElement.classList.remove('is-open');
-			calendarContainer.innerHTML = '';
-		});
-
-
+function initialDateHandler(curr: InitialState, acc: InitialState) {
+	return {...curr };
 }
+
+const clickCalendar = Observable
+	.fromEvent<MouseEvent>(calendarElement, 'click')
+	.map((evt: any) => evt.target.value) // fix this typing
+	.scan(initialDateHandler, initialState)
+	.subscribe((data) => generateCalendar(data, calendarContainer, bodyElement));
+
+Observable
+	.fromEvent(closeButton, 'click')
+	.subscribe(() => closeOverlay(calendarContainer, bodyElement));

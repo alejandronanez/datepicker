@@ -6,7 +6,7 @@
         "target": "es5",
         "noImplicitAny": true,
         "noEmit": false,
-        "strictNullChecks": true,
+        "strictNullChecks": false,
         "suppressExcessPropertyErrors": false,
         "suppressImplicitAnyIndexErrors": false,
         "allowUnreachableCode": false,
