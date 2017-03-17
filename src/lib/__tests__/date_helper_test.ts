@@ -43,24 +43,29 @@ describe('Date Helpers', () => {
 		expect(result.length).toBe(28);
 	});
 
-	it('getMonthFirstWeek should return an array with the remaining days of the month', () => {
+	it('getMonthFirstWeek should return an array with the first days of the previous month', () => {
 		const fakeDay = new DayItem({
 			dayOfTheWeek: 6,
 			dayInCalendar: 1,
 			isActive: false,
-			isCurrentDay: false
+			isCurrentDay: false,
+			dateString: '2017-2-26'
 		});
 		const month = 3;
 		const year = 2017;
 		const fakeMonthData = [fakeDay]
 		const result = getMonthFirstWeek(year, month, fakeMonthData);
 
+		console.log(result);
+
 		expect(result.length).toBe(7);
 		expect(result[0]).toBeInstanceOf(DayItem);
 		expect(result[0].dayOfTheWeek).toBe(0); // Sunday March 26/2017
 		expect(result[0].dayInCalendar).toBe(26); // Day in calendar #26
-		expect(result[6].dayOfTheWeek).toBe(6); // Sunday March 26/2017
+		expect(result[0].dateString).toBe('2017-2-26'); // Date String April 1 2017
+		expect(result[6].dayOfTheWeek).toBe(6); // Sunday April 1/2017
 		expect(result[6].dayInCalendar).toBe(1); // Day in calendar #26
+		expect(result[6].dateString).toBe('2017-3-1'); // Date String April 1 2017
 	});
 
 	it('getMonthFirstWeek should return the same array if the first item is sunday', () => {
@@ -68,7 +73,8 @@ describe('Date Helpers', () => {
 			dayOfTheWeek: 0,
 			dayInCalendar: 1,
 			isActive: false,
-			isCurrentDay: false
+			isCurrentDay: false,
+			dateString: '2017-2-26'
 		});
 		const month = 3;
 		const year = 2017;
@@ -84,7 +90,8 @@ describe('Date Helpers', () => {
 			dayOfTheWeek: 0,
 			dayInCalendar: 31,
 			isActive: false,
-			isCurrentDay: false
+			isCurrentDay: false,
+			dateString: '2017-2-26'
 		});
 		const fakeMonthData = [fakeDay]
 		const result = getMonthLastWeek(fakeMonthData);
@@ -99,7 +106,8 @@ describe('Date Helpers', () => {
 			dayOfTheWeek: 6,
 			dayInCalendar: 31,
 			isActive: false,
-			isCurrentDay: false
+			isCurrentDay: false,
+			dateString: '2017-2-26'
 		});
 		const fakeMonthData = [fakeDay]
 		const result = getMonthLastWeek(fakeMonthData);
@@ -115,13 +123,15 @@ describe('Date Helpers', () => {
 			dayInCalendar: 26,
 			dayOfTheWeek: 0,
 			isActive: true,
-			isCurrentDay: false
+			isCurrentDay: false,
+			dateString: '2017-2-26'
 		});
 		const lastDay = new DayItem({
 			dayInCalendar: 6,
 			dayOfTheWeek: 1,
 			isActive: true,
-			isCurrentDay: false
+			isCurrentDay: false,
+			dateString: '2017-2-26'
 		});
 
 		expect(result.length).toEqual(5);

@@ -29,10 +29,10 @@ export function renderTd(dayItem: DayItem): string {
 			<label>
 				<input
 					type="radio"
-					value="${dayItem.dayInCalendar}"
+					value="${dayItem.dateString}"
 					name="day"
 				/>
-				${dayItem.dayInCalendar}
+				<span>${dayItem.dayInCalendar}</span>
 			</label>
 		</td>
 	`;

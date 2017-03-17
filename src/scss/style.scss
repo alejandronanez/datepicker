@@ -50,7 +50,6 @@ input[type='radio'] {
 }
 
 .day {
-	padding: 10px;
 	text-align: center;
 
 	&:hover,
@@ -64,6 +63,9 @@ input[type='radio'] {
 	}
 
 	label {
+		display: inline-block;
+		text-align: center;
+		padding: 10px;
 		&:hover {
 			cursor: pointer;
 		}

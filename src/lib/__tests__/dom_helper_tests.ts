@@ -99,7 +99,7 @@ describe('DOM Helpers', () => {
 						value="1"
 						name="day"
 					/>
-					1
+					<span>1</span>
 				</label>
 			</td>
 		`;

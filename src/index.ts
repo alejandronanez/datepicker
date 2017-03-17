@@ -47,7 +47,7 @@ const closeButton: HTMLElement | null = document.getElementById('close-overlay')
 const calendarInput$ = Observable.fromEvent(calendarElement, 'click');
 const closeButton$ = Observable.fromEvent(closeButton, 'click');
 
-const getDataFromStringObj = ({ year, month, day }) => ({
+const getDataFromStringObj = ({ year, month, day }: { year: string, month: string, day: string }) => ({
 	rawDate: new Date(`${year} ${month} ${day}`),
 	currentDay: getCurrentDay(new Date(`${year} ${month} ${day}`)),
 	currentMonth: getCurrentMonth(new Date(`${year} ${month} ${day}`)),
@@ -86,7 +86,7 @@ calendarInput$.subscribe((evt: any) => { // TODO: Fix this type
 // http://stackoverflow.com/a/27069598/1405803
 const dayClick$ = calendarData$
 	.take(1)
-	.map(elements => Observable.from(Array.from(document.querySelectorAll('.day'))))
+	.map(elements => Observable.from(Array.from(document.querySelectorAll('input'))))
 	.flatMap(elements => Observable.from(elements))
 	.flatMap(element => Observable.fromEvent(element, 'click'));
 

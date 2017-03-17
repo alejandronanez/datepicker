@@ -26,6 +26,7 @@ interface DayItemInterface {
 	dayInCalendar: number;
 	isActive: boolean;
 	isCurrentDay: boolean;
+	dateString: string;
 };
 
 const MAX_DAY_OF_WEEK: number = 6;
@@ -36,17 +37,20 @@ export class DayItem implements DayItemInterface {
 	dayInCalendar: number;
 	isActive: boolean;
 	isCurrentDay: boolean;
+	dateString: string;
 
 	constructor({
 		dayOfTheWeek,
 		dayInCalendar,
 		isActive,
-		isCurrentDay
+		isCurrentDay,
+		dateString
 	}: DayItemInterface) {
 		this.dayOfTheWeek = dayOfTheWeek;
 		this.dayInCalendar = dayInCalendar;
 		this.isActive = isActive;
 		this.isCurrentDay = isCurrentDay;
+		this.dateString = dateString;
 	}
 };
 
@@ -82,7 +86,8 @@ export function getMonthArray(year: number, month: number, day: number | null): 
 				dayOfTheWeek: getDayInTheWeek({ year, month, day: index + 1 }),
 				dayInCalendar: index + 1,
 				isActive: true,
-				isCurrentDay: index + 1 === currentDay
+				isCurrentDay: index + 1 === currentDay,
+				dateString: `${year}-${month}-${index + 1}`
 			})
 		));
 }
@@ -105,7 +110,8 @@ export function getMonthFirstWeek(currentYear: number, currentMonth: number, mon
 				dayOfTheWeek: index,
 				dayInCalendar: totalDaysInPreviousMonthIndex,
 				isActive: true,
-				isCurrentDay: false
+				isCurrentDay: false,
+				dateString: `${currentYear}-${previousMonth}-${totalDaysInPreviousMonthIndex}`
 			});
 
 			totalDaysInPreviousMonthIndex++;
@@ -116,7 +122,7 @@ export function getMonthFirstWeek(currentYear: number, currentMonth: number, mon
 	return [...firstDays, ...monthData];
 }
 
-export function getMonthLastWeek(monthData: DayItem[]): DayItem[] {
+export function getMonthLastWeek(currentYear: number, currentMonth: number, monthData: DayItem[]): DayItem[] {
 	const { dayOfTheWeek } = monthData[monthData.length - 1];
 
 	if (dayOfTheWeek === MAX_DAY_OF_WEEK) {
@@ -133,7 +139,8 @@ export function getMonthLastWeek(monthData: DayItem[]): DayItem[] {
 				dayOfTheWeek: dayIndex,
 				dayInCalendar: index + 1,
 				isActive: true,
-				isCurrentDay: false
+				isCurrentDay: false,
+				dateString: `${currentYear}-${currentMonth + 1}-${index + 1}`
 			});
 
 			dayIndex++;
@@ -152,7 +159,7 @@ export function splitMonthArrayInChunks(monthData: DayItem[]) {
 export function getFullMonth({ year, month, day = null }: FullMonthObj): DayItem[][] {
 
 	const monthFirstWeek = partial(getMonthFirstWeek, year, month);
-	const monthLastWeek = partial(getMonthLastWeek);
+	const monthLastWeek = partial(getMonthLastWeek, year, month);
 	const chunkMonthInWeeks = partial(splitMonthArrayInChunks);
 
 	return flowRight(
