@@ -55,7 +55,7 @@ const getDataFromStringObj = ({ year, month, day }: { year: string, month: strin
 });
 
 const getDataFromDate = (date: Date) => ({
-	rawDate: date,
+	rawDate: new Date(date),
 	currentDay: getCurrentDay(date),
 	currentMonth: getCurrentMonth(date),
 	currentYear: getCurrentYear(date)
@@ -66,28 +66,40 @@ const main$ = new Subject<Date>();
 const calendarData$ = main$
 	.map(getDataFromDate)
 	.map(data => {
-		return flowRight(
-			getCalendarTableHTML,
-			getFullMonth
-		)({
+		const fullMonth = getFullMonth({
 			year: data.currentYear,
 			month: data.currentMonth,
 			day: data.currentDay
 		});
+
+		const calendarTableHTML = getCalendarTableHTML(fullMonth);
+
+		return calendarTableHTML;
 	});
 
-calendarData$.subscribe(data => generateCalendar(data, calendarContainer, bodyElement));
-closeButton$.subscribe(() => closeOverlay(calendarContainer, bodyElement));
+calendarData$.subscribe(data => {
+	generateCalendar(data, calendarContainer, bodyElement)
+});
+closeButton$.subscribe(() => {
+	closeOverlay(calendarContainer, bodyElement)
+});
 calendarInput$.subscribe((evt: any) => { // TODO: Fix this type
-	const val = evt.target.value;
-	val ? main$.next(new Date(val)) : main$.next(new Date());
+	evt.target.value ? main$.next(new Date(evt.target.value)) : main$.next(new Date());
 });
 
 // http://stackoverflow.com/a/27069598/1405803
 const dayClick$ = calendarData$
-	.take(1)
-	.map(elements => Observable.from(Array.from(document.querySelectorAll('input'))))
+	.map(elements => Observable.from(Array.from(document.querySelectorAll('input[type="radio"]'))))
 	.flatMap(elements => Observable.from(elements))
 	.flatMap(element => Observable.fromEvent(element, 'click'));
 
-dayClick$.subscribe(console.log);
+dayClick$.subscribe((evt:any) => {
+
+	const dayDate = evt.target.value;
+
+	console.log(dayDate);
+
+	main$.next(new Date(dayDate));
+});
+
+

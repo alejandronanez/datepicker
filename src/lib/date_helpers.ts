@@ -87,14 +87,14 @@ export function getMonthArray(year: number, month: number, day: number | null): 
 				dayInCalendar: index + 1,
 				isActive: true,
 				isCurrentDay: index + 1 === currentDay,
-				dateString: `${year}-${month}-${index + 1}`
+				dateString: new Date(year, month, index + 1).toISOString()
 			})
 		));
 }
 
 export function getMonthFirstWeek(currentYear: number, currentMonth: number, monthData: DayItem[]): DayItem[] {
 	const { dayOfTheWeek } = monthData[0];
-	const previousMonth = currentMonth - 1;
+	const previousMonth = currentMonth === 0 ? 11 : currentMonth;
 
 	if (dayOfTheWeek === MIN_DAY_OF_WEEK) {
 		return monthData;
@@ -106,12 +106,13 @@ export function getMonthFirstWeek(currentYear: number, currentMonth: number, mon
 	const firstDays = Array
 		.apply(null, { length: dayOfTheWeek })
 		.map((day: null, index: number) => {
+			const year = previousMonth === 11 ? currentYear - 1 : currentYear;
 			const dayItem = new DayItem({
 				dayOfTheWeek: index,
 				dayInCalendar: totalDaysInPreviousMonthIndex,
 				isActive: true,
 				isCurrentDay: false,
-				dateString: `${currentYear}-${previousMonth}-${totalDaysInPreviousMonthIndex}`
+				dateString: new Date(year, previousMonth, totalDaysInPreviousMonthIndex).toISOString()
 			});
 
 			totalDaysInPreviousMonthIndex++;
@@ -135,12 +136,14 @@ export function getMonthLastWeek(currentYear: number, currentMonth: number, mont
 	const lastDays = Array
 		.apply(null, { length: arrayLength })
 		.map((day: null, index: number) => {
+			const nextYear = currentMonth === 11 ? currentYear + 1 : currentYear;
+			const nextMonth = currentMonth === 11 ? 0 : currentMonth;
 			const dayItem = new DayItem({
 				dayOfTheWeek: dayIndex,
 				dayInCalendar: index + 1,
 				isActive: true,
 				isCurrentDay: false,
-				dateString: `${currentYear}-${currentMonth + 1}-${index + 1}`
+				dateString: new Date(nextYear, nextMonth + 1, index + 1).toISOString()
 			});
 
 			dayIndex++;
@@ -157,14 +160,10 @@ export function splitMonthArrayInChunks(monthData: DayItem[]) {
 }
 
 export function getFullMonth({ year, month, day = null }: FullMonthObj): DayItem[][] {
+	const monthArray = getMonthArray(year, month, day);
+	const monthFirstWeek = getMonthFirstWeek(year, month, monthArray);
+	const monthLastWeek = getMonthLastWeek(year, month, monthFirstWeek);
+	const result = splitMonthArrayInChunks(monthLastWeek);
 
-	const monthFirstWeek = partial(getMonthFirstWeek, year, month);
-	const monthLastWeek = partial(getMonthLastWeek, year, month);
-	const chunkMonthInWeeks = partial(splitMonthArrayInChunks);
-
-	return flowRight(
-		chunkMonthInWeeks,
-		monthLastWeek,
-		monthFirstWeek
-	)(getMonthArray(year, month, day));
+	return result
 }

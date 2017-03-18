@@ -43,18 +43,16 @@ describe('Date Helpers', () => {
 		expect(result.length).toBe(28);
 	});
 
-	it('getMonthFirstWeek should return an array with the first days of the previous month', () => {
+	it.only('getMonthFirstWeek should return an array with the first days of the previous month', () => {
 		const fakeDay = new DayItem({
 			dayOfTheWeek: 6,
 			dayInCalendar: 1,
 			isActive: false,
 			isCurrentDay: false,
-			dateString: '2017-2-26'
+			dateString: '2022-0-1'
 		});
-		const month = 3;
-		const year = 2017;
 		const fakeMonthData = [fakeDay]
-		const result = getMonthFirstWeek(year, month, fakeMonthData);
+		const result = getMonthFirstWeek(2022, 12, fakeMonthData);
 
 		console.log(result);
 
@@ -62,10 +60,10 @@ describe('Date Helpers', () => {
 		expect(result[0]).toBeInstanceOf(DayItem);
 		expect(result[0].dayOfTheWeek).toBe(0); // Sunday March 26/2017
 		expect(result[0].dayInCalendar).toBe(26); // Day in calendar #26
-		expect(result[0].dateString).toBe('2017-2-26'); // Date String April 1 2017
-		expect(result[6].dayOfTheWeek).toBe(6); // Sunday April 1/2017
+		expect(result[0].dateString).toBe('2021-12-26'); // Date String April 1 2017
+		expect(result[6].dayOfTheWeek).toBe(6); // Sunday Jan 1 2022
 		expect(result[6].dayInCalendar).toBe(1); // Day in calendar #26
-		expect(result[6].dateString).toBe('2017-3-1'); // Date String April 1 2017
+		expect(result[6].dateString).toBe('2022-0-1'); // Date String Jan 1 2022
 	});
 
 	it('getMonthFirstWeek should return the same array if the first item is sunday', () => {
@@ -91,26 +89,30 @@ describe('Date Helpers', () => {
 			dayInCalendar: 31,
 			isActive: false,
 			isCurrentDay: false,
-			dateString: '2017-2-26'
+			dateString: '2017-11-31'
 		});
 		const fakeMonthData = [fakeDay]
-		const result = getMonthLastWeek(fakeMonthData);
+		const result = getMonthLastWeek(2017, 11, fakeMonthData);
+
+		console.log(result);
 
 		expect(result.length).toBe(7);
 		expect(result[6].dayOfTheWeek).toBe(6);
 		expect(result[6].dayInCalendar).toBe(6);
+		expect(result[0].dateString).toBe('2017-11-31');
+		expect(result[6].dateString).toBe('2018-1-6');
 	});
 
 	it('getMonthLastWeek should return the same array if the last item is saturday', () => {
 		const fakeDay = new DayItem({
 			dayOfTheWeek: 6,
-			dayInCalendar: 31,
+			dayInCalendar: 30,
 			isActive: false,
 			isCurrentDay: false,
-			dateString: '2017-2-26'
+			dateString: '2017-8-30'
 		});
 		const fakeMonthData = [fakeDay]
-		const result = getMonthLastWeek(fakeMonthData);
+		const result = getMonthLastWeek(2017, 8, fakeMonthData);
 
 		expect(result.length).toBe(1);
 		expect(result).toEqual(fakeMonthData);
