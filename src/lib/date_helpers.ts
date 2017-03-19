@@ -167,3 +167,12 @@ export function getFullMonth({ year, month, day = null }: FullMonthObj): DayItem
 
 	return result
 }
+
+export function getDataFromDate(date: Date) {
+	return {
+		rawDate: new Date(date),
+		currentDay: getCurrentDay(date),
+		currentMonth: getCurrentMonth(date),
+		currentYear: getCurrentYear(date)
+	};
+};
