@@ -67,5 +67,5 @@ dayClick$.subscribe((evt:any) => {
 
 	main$.next(newDate);
 	closeOverlay(calendarContainer, bodyElement);
-	calendarElement.value = new Date(newDate).toDateString();
+	calendarElement.value = new Date(newDate).getTime();
 });

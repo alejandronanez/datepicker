@@ -26,7 +26,7 @@ interface DayItemInterface {
 	dayInCalendar: number;
 	isActive: boolean;
 	isCurrentDay: boolean;
-	dateString: string;
+	dateString: number;
 };
 
 const MAX_DAY_OF_WEEK: number = 6;
@@ -37,7 +37,7 @@ export class DayItem implements DayItemInterface {
 	dayInCalendar: number;
 	isActive: boolean;
 	isCurrentDay: boolean;
-	dateString: string;
+	dateString: number;
 
 	constructor({
 		dayOfTheWeek,
@@ -87,14 +87,14 @@ export function getMonthArray(year: number, month: number, day: number | null): 
 				dayInCalendar: index + 1,
 				isActive: true,
 				isCurrentDay: index + 1 === currentDay,
-				dateString: new Date(year, month, index + 1).toISOString()
+				dateString: new Date(year, month, index + 1).getTime()
 			})
 		));
 }
 
 export function getMonthFirstWeek(currentYear: number, currentMonth: number, monthData: DayItem[]): DayItem[] {
 	const { dayOfTheWeek } = monthData[0];
-	const previousMonth = currentMonth === 0 ? 11 : currentMonth;
+	const previousMonth = currentMonth === 0 ? 11 : currentMonth - 1;
 
 	if (dayOfTheWeek === MIN_DAY_OF_WEEK) {
 		return monthData;
@@ -112,7 +112,7 @@ export function getMonthFirstWeek(currentYear: number, currentMonth: number, mon
 				dayInCalendar: totalDaysInPreviousMonthIndex,
 				isActive: true,
 				isCurrentDay: false,
-				dateString: new Date(year, previousMonth, totalDaysInPreviousMonthIndex).toISOString()
+				dateString: new Date(year, previousMonth, totalDaysInPreviousMonthIndex).getTime()
 			});
 
 			totalDaysInPreviousMonthIndex++;
@@ -143,7 +143,7 @@ export function getMonthLastWeek(currentYear: number, currentMonth: number, mont
 				dayInCalendar: index + 1,
 				isActive: true,
 				isCurrentDay: false,
-				dateString: new Date(nextYear, nextMonth + 1, index + 1).toISOString()
+				dateString: new Date(nextYear, nextMonth + 1, index + 1).getTime()
 			});
 
 			dayIndex++;
