@@ -12,8 +12,8 @@ import {
 } from './lib/date_helpers';
 import {
 	getCalendarTableHTML,
-	closeOverlay,
-	generateCalendar
+	closeCalendar,
+	openCalendar
 } from './lib/dom_helpers';
 
 const calendarElement: any | null = document.getElementById('calendar');
@@ -39,12 +39,12 @@ const dayClick$ = calendarData$
 	.flatMap(element => Observable.fromEvent(element, 'click'))
 	.map((evt: any) => new Date(parseInt(evt.target.value)));
 
-calendarData$.subscribe(data => generateCalendar(data, calendarContainer, bodyElement));
-closeButton$.subscribe(() => closeOverlay(calendarContainer, bodyElement));
+calendarData$.subscribe(data => openCalendar(data, calendarContainer, bodyElement));
+closeButton$.subscribe(() => closeCalendar(calendarContainer, bodyElement));
 calendarInput$.subscribe((evt: any) => evt.target.value ? main$.next(new Date(evt.target.value)) : main$.next(new Date()));
 
 dayClick$.subscribe(newDate => {
 	main$.next(newDate);
-	closeOverlay(calendarContainer, bodyElement);
+	closeCalendar(calendarContainer, bodyElement);
 	calendarElement.value = new Date(newDate).toDateString();
 });

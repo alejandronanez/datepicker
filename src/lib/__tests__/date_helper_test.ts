@@ -8,6 +8,7 @@ import {
 	getMonthFirstWeek,
 	getMonthLastWeek,
 	getFullMonth,
+	getDataFromDate,
 	DayItem
 } from '../date_helpers';
 
@@ -126,5 +127,16 @@ describe('Date Helpers', () => {
 
 		expect(result.length).toEqual(5);
 		expect(result[0].length).toEqual(7);
+	});
+
+	it('should return the right object after passing a valid date', () => {
+		const date = new Date('2017-03-19');
+		const expectedResult = {
+			currentDay: 19,
+			currentMonth: 3,
+			currentYear: 2017
+		};
+
+		expect(getDataFromDate(date)).toEqual(expectedResult);
 	});
 });

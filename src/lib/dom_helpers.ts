@@ -8,13 +8,6 @@ import {
 	DayItem
 } from './date_helpers';
 
-type InitialState = {
-	rawDate: Date,
-	currentDay: number,
-	currentMonth: number,
-	currentYear: number
-}
-
 export function renderTd(dayItem: DayItem): string {
 	const tdClassNames = [
 		'day',
@@ -54,14 +47,12 @@ export function getCalendarTableHTML(dayItems: DayItem[][]) {
 	return renderTable(trs);
 }
 
-// DOM Modification - Move this somewhere else?
-
-export function closeOverlay(calendarNode: HTMLElement, bodyNode: HTMLElement) {
-	bodyNode.classList.remove('is-open');
+export function closeCalendar(calendarNode: HTMLElement, bodyNode: HTMLElement) {
 	calendarNode.innerHTML = '';
+	bodyNode.classList.remove('is-open');
 }
 
-export function generateCalendar(data: string, calendarNode: HTMLElement, bodyNode: HTMLElement) {
+export function openCalendar(data: string, calendarNode: HTMLElement, bodyNode: HTMLElement) {
 	calendarNode.innerHTML = data;
 	bodyNode.classList.add('is-open');
 }
