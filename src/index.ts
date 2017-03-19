@@ -59,11 +59,10 @@ const dayClick$ = calendarData$
 
 calendarData$.subscribe(data => generateCalendar(data, calendarContainer, bodyElement));
 closeButton$.subscribe(() => closeOverlay(calendarContainer, bodyElement));
-calendarInput$.subscribe((evt: any) => evt.target.value ? main$.next(new Date(evt.target.value)) : main$.next(new Date()));
+calendarInput$.subscribe((evt: any) => evt.target.value ? main$.next(new Date(parseInt(evt.target.value))) : main$.next(new Date()));
 
 dayClick$.subscribe((evt:any) => {
-	const newDate = new Date(evt.target.value)
-	console.log(newDate);
+	const newDate = new Date(parseInt(evt.target.value))
 
 	main$.next(newDate);
 	closeOverlay(calendarContainer, bodyElement);
