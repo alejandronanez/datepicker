@@ -57,11 +57,11 @@ export function getCalendarTableHTML(dayItems: DayItem[][]) {
 // DOM Modification - Move this somewhere else?
 
 export function closeOverlay(calendarNode: HTMLElement, bodyNode: HTMLElement) {
-	bodyNode.classList.toggle('is-open');
+	bodyNode.classList.remove('is-open');
 	calendarNode.innerHTML = '';
 }
 
 export function generateCalendar(data: string, calendarNode: HTMLElement, bodyNode: HTMLElement) {
 	calendarNode.innerHTML = data;
-	bodyNode.classList.toggle('is-open');
+	bodyNode.classList.add('is-open');
 }

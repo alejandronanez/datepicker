@@ -1,10 +1,6 @@
 import './scss/style.scss';
 
-import {
-	Observable,
-	BehaviorSubject,
-	Subject
-} from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { partial, flowRight } from 'lodash';
 
 import {
@@ -26,20 +22,7 @@ type InitialState = {
 	currentYear: number
 }
 
-const initialDate = new Date();
-
-const initialState: InitialState = {
-	rawDate: initialDate,
-	currentDay: getCurrentDay(initialDate),
-	currentMonth: getCurrentMonth(initialDate),
-	currentYear: getCurrentYear(initialDate)
-};
-
-function initialDateHandler(acc: InitialState) {
-	return { ...acc };
-}
-
-const calendarElement: HTMLElement | null = document.getElementById('calendar');
+const calendarElement: any | null = document.getElementById('calendar');
 const calendarContainer: HTMLElement | null = document.getElementById('calendar-container');
 const bodyElement: HTMLBodyElement | null = document.querySelector('body');
 const closeButton: HTMLElement | null = document.getElementById('close-overlay');
@@ -47,12 +30,7 @@ const closeButton: HTMLElement | null = document.getElementById('close-overlay')
 const calendarInput$ = Observable.fromEvent(calendarElement, 'click');
 const closeButton$ = Observable.fromEvent(closeButton, 'click');
 
-const getDataFromStringObj = ({ year, month, day }: { year: string, month: string, day: string }) => ({
-	rawDate: new Date(`${year} ${month} ${day}`),
-	currentDay: getCurrentDay(new Date(`${year} ${month} ${day}`)),
-	currentMonth: getCurrentMonth(new Date(`${year} ${month} ${day}`)),
-	currentYear: getCurrentYear(new Date(`${year} ${month} ${day}`))
-});
+const main$ = new Subject<Date>();
 
 const getDataFromDate = (date: Date) => ({
 	rawDate: new Date(date),
@@ -60,8 +38,6 @@ const getDataFromDate = (date: Date) => ({
 	currentMonth: getCurrentMonth(date),
 	currentYear: getCurrentYear(date)
 })
-
-const main$ = new Subject<Date>();
 
 const calendarData$ = main$
 	.map(getDataFromDate)
@@ -72,20 +48,8 @@ const calendarData$ = main$
 			day: data.currentDay
 		});
 
-		const calendarTableHTML = getCalendarTableHTML(fullMonth);
-
-		return calendarTableHTML;
+		return getCalendarTableHTML(fullMonth);
 	});
-
-calendarData$.subscribe(data => {
-	generateCalendar(data, calendarContainer, bodyElement)
-});
-closeButton$.subscribe(() => {
-	closeOverlay(calendarContainer, bodyElement)
-});
-calendarInput$.subscribe((evt: any) => { // TODO: Fix this type
-	evt.target.value ? main$.next(new Date(evt.target.value)) : main$.next(new Date());
-});
 
 // http://stackoverflow.com/a/27069598/1405803
 const dayClick$ = calendarData$
@@ -93,13 +57,15 @@ const dayClick$ = calendarData$
 	.flatMap(elements => Observable.from(elements))
 	.flatMap(element => Observable.fromEvent(element, 'click'));
 
+calendarData$.subscribe(data => generateCalendar(data, calendarContainer, bodyElement));
+closeButton$.subscribe(() => closeOverlay(calendarContainer, bodyElement));
+calendarInput$.subscribe((evt: any) => evt.target.value ? main$.next(new Date(evt.target.value)) : main$.next(new Date()));
+
 dayClick$.subscribe((evt:any) => {
+	const newDate = new Date(evt.target.value)
+	console.log(newDate);
 
-	const dayDate = evt.target.value;
-
-	console.log(dayDate);
-
-	main$.next(new Date(dayDate));
+	main$.next(newDate);
+	closeOverlay(calendarContainer, bodyElement);
+	calendarElement.value = new Date(newDate).toDateString();
 });
-
-
