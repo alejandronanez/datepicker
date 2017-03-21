@@ -1,17 +1,24 @@
 {
     "compilerOptions": {
-        "module": "es2015",
+        "module": "commonjs",
         "allowJs": true,
         "outDir": "dist",
         "target": "es5",
         "noImplicitAny": true,
-        "noEmit": true,
-        "strictNullChecks": true,
+        "noEmit": false,
+        "strictNullChecks": false,
         "suppressExcessPropertyErrors": false,
         "suppressImplicitAnyIndexErrors": false,
         "allowUnreachableCode": false,
         "allowUnusedLabels": false,
         "noImplicitReturns": true,
-        "noFallthroughCasesInSwitch": true
-    }
+        "noFallthroughCasesInSwitch": true,
+        "lib": [
+            "es2015",
+            "dom"
+        ]
+    },
+    "files": [
+        "./node_modules/dedent-js/lib/index.d.ts"
+    ]
 }

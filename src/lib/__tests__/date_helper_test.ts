@@ -8,6 +8,7 @@ import {
 	getMonthFirstWeek,
 	getMonthLastWeek,
 	getFullMonth,
+	getDataFromDate,
 	DayItem
 } from '../date_helpers';
 
@@ -43,32 +44,37 @@ describe('Date Helpers', () => {
 		expect(result.length).toBe(28);
 	});
 
-	it('getMonthFirstWeek should return an array with the remaining days of the month', () => {
+	it.only('getMonthFirstWeek should return an array with the first days of the previous month', () => {
+		const jan012022 = 1641013200000;
+		const dec262021 = 1640494800000;
 		const fakeDay = new DayItem({
 			dayOfTheWeek: 6,
 			dayInCalendar: 1,
 			isActive: false,
-			isCurrentDay: false
+			isCurrentDay: false,
+			dateString: jan012022
 		});
-		const month = 3;
-		const year = 2017;
 		const fakeMonthData = [fakeDay]
-		const result = getMonthFirstWeek(year, month, fakeMonthData);
+		const result = getMonthFirstWeek(2022, 12, fakeMonthData);
 
 		expect(result.length).toBe(7);
 		expect(result[0]).toBeInstanceOf(DayItem);
-		expect(result[0].dayOfTheWeek).toBe(0); // Sunday March 26/2017
-		expect(result[0].dayInCalendar).toBe(26); // Day in calendar #26
-		expect(result[6].dayOfTheWeek).toBe(6); // Sunday March 26/2017
-		expect(result[6].dayInCalendar).toBe(1); // Day in calendar #26
+		expect(result[0].dayOfTheWeek).toBe(0);
+		expect(result[0].dayInCalendar).toBe(26);
+		expect(result[0].dateString).toEqual(dec262021);
+		expect(result[6].dayOfTheWeek).toBe(6);
+		expect(result[6].dayInCalendar).toBe(1);
+		expect(result[6].dateString).toEqual(jan012022);
 	});
 
 	it('getMonthFirstWeek should return the same array if the first item is sunday', () => {
+		const feb22017 = 1488085200000;
 		const fakeDay = new DayItem({
 			dayOfTheWeek: 0,
 			dayInCalendar: 1,
 			isActive: false,
-			isCurrentDay: false
+			isCurrentDay: false,
+			dateString: feb22017
 		});
 		const month = 3;
 		const year = 2017;
@@ -80,52 +86,57 @@ describe('Date Helpers', () => {
 	});
 
 	it('getMonthLastWeek should return an array with the first days of the next month', () => {
+		const nov302017 = 1512086400000;
 		const fakeDay = new DayItem({
 			dayOfTheWeek: 0,
 			dayInCalendar: 31,
 			isActive: false,
-			isCurrentDay: false
+			isCurrentDay: false,
+			dateString: nov302017
 		});
 		const fakeMonthData = [fakeDay]
-		const result = getMonthLastWeek(fakeMonthData);
+		const result = getMonthLastWeek(2017, 11, fakeMonthData);
+
+		console.log(result);
 
 		expect(result.length).toBe(7);
 		expect(result[6].dayOfTheWeek).toBe(6);
 		expect(result[6].dayInCalendar).toBe(6);
+		expect(result[0].dateString).toBe('2017-11-31');
+		expect(result[6].dateString).toBe('2018-1-6');
 	});
 
 	it('getMonthLastWeek should return the same array if the last item is saturday', () => {
+		const aug302017 = 1504069200000;
 		const fakeDay = new DayItem({
 			dayOfTheWeek: 6,
-			dayInCalendar: 31,
+			dayInCalendar: 30,
 			isActive: false,
-			isCurrentDay: false
+			isCurrentDay: false,
+			dateString: aug302017
 		});
 		const fakeMonthData = [fakeDay]
-		const result = getMonthLastWeek(fakeMonthData);
+		const result = getMonthLastWeek(2017, 8, fakeMonthData);
 
 		expect(result.length).toBe(1);
 		expect(result).toEqual(fakeMonthData);
 	});
 
 	it('getFullMonth should return the whole month including dates in the past and in the future for previous/next months', () => {
-		// March 10 2017
 		const result = getFullMonth({ year: 2017, month: 2, day: 10 });
-		const firstDay = new DayItem({
-			dayInCalendar: 26,
-			dayOfTheWeek: 0,
-			isActive: true,
-			isCurrentDay: false
-		});
-		const lastDay = new DayItem({
-			dayInCalendar: 6,
-			dayOfTheWeek: 1,
-			isActive: true,
-			isCurrentDay: false
-		});
 
-		expect(result.length).toBe(35);
-		expect(result[0]).toEqual(firstDay);
-		expect(result[34]).toEqual(lastDay);
+		expect(result.length).toEqual(5);
+		expect(result[0].length).toEqual(7);
+	});
+
+	it('should return the right object after passing a valid date', () => {
+		const date = new Date('2017-03-19');
+		const expectedResult = {
+			currentDay: 19,
+			currentMonth: 3,
+			currentYear: 2017
+		};
+
+		expect(getDataFromDate(date)).toEqual(expectedResult);
 	});
 });
