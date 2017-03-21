@@ -37,7 +37,8 @@ const dayClick$ = calendarData$
 	.map(elements => Observable.from(Array.from(document.querySelectorAll('input[type="radio"]'))))
 	.flatMap(elements => Observable.from(elements))
 	.flatMap(element => Observable.fromEvent(element, 'click'))
-	.map((evt: any) => new Date(parseInt(evt.target.value)));
+	.map((evt: any) => parseInt(evt.target.value))
+	.map((formattedDate: number) => new Date(formattedDate));
 
 calendarData$.subscribe(data => openCalendar(data, calendarContainer, bodyElement));
 closeButton$.subscribe(() => closeCalendar(calendarContainer, bodyElement));
