@@ -56,3 +56,27 @@ export function openCalendar(data: string, calendarNode: HTMLElement, bodyNode: 
 	calendarNode.innerHTML = data;
 	bodyNode.classList.add('is-open');
 }
+
+export function generateNavigation({
+	previousDate,
+	currentDate,
+	nextDate
+}: {
+	previousDate: string,
+	currentDate: string,
+	nextDate: string
+}): string {
+	return `
+		<div class="navigator">
+			<label class="month-arrows" for="previous-month">
+				<input type="radio" name="name-navigator" value="${previousDate}" />
+				<span><</span>
+			</label>
+			<h2>${currentDate}</h2>
+			<label class="month-arrows" for="previous-month">
+				<input type="radio" name="name-navigator" value="${nextDate}" />
+				<span>></span>
+			</label>
+		</div>
+	`;
+}

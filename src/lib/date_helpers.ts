@@ -175,3 +175,38 @@ export function getDataFromDate(date: Date) {
 		currentYear: getCurrentYear(date)
 	};
 };
+
+export function subtractMonth(date: Date): Date {
+	const newDate = date.setMonth(date.getMonth() - 1);
+
+	return new Date(newDate);
+}
+
+export function addMonth(date: Date): Date {
+	const newDate = date.setMonth(date.getMonth() + 1);
+
+	return new Date(newDate);
+}
+
+export function getMonthAndYear(date: Date): string {
+	return `${getCurrentYear(date)}-${getCurrentMonth(date)}`;
+}
+
+export function getCurrentMonthString(date: Date): string {
+	const months = [
+		'Jan',
+		'Feb',
+		'Mar',
+		'Apr',
+		'May',
+		'Jun',
+		'Jul',
+		'Aug',
+		'Sep',
+		'Oct',
+		'Nov',
+		'Dec'
+	];
+
+	return `${months[getCurrentMonth(date)]} ${getCurrentYear(date)}`;
+}

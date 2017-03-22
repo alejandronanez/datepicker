@@ -122,4 +122,6 @@ describe.skip('DOM Helpers', () => {
 
 		expect(result).toEqual(expectedResult);
 	});
+
+	it.skip('generateNavigation');
 });

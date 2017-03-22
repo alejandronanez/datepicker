@@ -139,4 +139,9 @@ describe('Date Helpers', () => {
 
 		expect(getDataFromDate(date)).toEqual(expectedResult);
 	});
+
+	it.skip('should test subtractMonth');
+	it.skip('should test addMonth');
+	it.skip('should test getMonthAndYear');
+	it.skip('should test getCurrentMonthString');
 });
