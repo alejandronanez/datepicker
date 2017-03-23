@@ -137,13 +137,13 @@ export function getMonthLastWeek(currentYear: number, currentMonth: number, mont
 		.apply(null, { length: arrayLength })
 		.map((day: null, index: number) => {
 			const nextYear = currentMonth === 11 ? currentYear + 1 : currentYear;
-			const nextMonth = currentMonth === 11 ? 0 : currentMonth;
+			const nextMonth = currentMonth === 11 ? 0 : currentMonth + 1;
 			const dayItem = new DayItem({
 				dayOfTheWeek: dayIndex,
 				dayInCalendar: index + 1,
 				isActive: true,
 				isCurrentDay: false,
-				dateString: new Date(nextYear, nextMonth + 1, index + 1).getTime()
+				dateString: new Date(nextYear, nextMonth, index + 1).getTime()
 			});
 
 			dayIndex++;

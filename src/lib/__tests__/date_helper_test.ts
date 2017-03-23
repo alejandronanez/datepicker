@@ -9,6 +9,10 @@ import {
 	getMonthLastWeek,
 	getFullMonth,
 	getDataFromDate,
+	getCurrentMonthString,
+	getMonthAndYear,
+	subtractMonth,
+	addMonth,
 	DayItem
 } from '../date_helpers';
 
@@ -44,7 +48,7 @@ describe('Date Helpers', () => {
 		expect(result.length).toBe(28);
 	});
 
-	it.only('getMonthFirstWeek should return an array with the first days of the previous month', () => {
+	it('getMonthFirstWeek should return an array with the first days of the previous month', () => {
 		const jan012022 = 1641013200000;
 		const dec262021 = 1640494800000;
 		const fakeDay = new DayItem({
@@ -86,24 +90,22 @@ describe('Date Helpers', () => {
 	});
 
 	it('getMonthLastWeek should return an array with the first days of the next month', () => {
-		const nov302017 = 1512086400000;
+		const dec2017 = 1514696400000;
 		const fakeDay = new DayItem({
 			dayOfTheWeek: 0,
 			dayInCalendar: 31,
 			isActive: false,
 			isCurrentDay: false,
-			dateString: nov302017
+			dateString: dec2017
 		});
 		const fakeMonthData = [fakeDay]
 		const result = getMonthLastWeek(2017, 11, fakeMonthData);
 
-		console.log(result);
-
 		expect(result.length).toBe(7);
 		expect(result[6].dayOfTheWeek).toBe(6);
 		expect(result[6].dayInCalendar).toBe(6);
-		expect(result[0].dateString).toBe('2017-11-31');
-		expect(result[6].dateString).toBe('2018-1-6');
+		expect(result[0].dateString).toBe(1514696400000); // sun dec 31 2017
+		expect(result[6].dateString).toBe(1515214800000); // sat jan 06 2018
 	});
 
 	it('getMonthLastWeek should return the same array if the last item is saturday', () => {
@@ -130,18 +132,41 @@ describe('Date Helpers', () => {
 	});
 
 	it('should return the right object after passing a valid date', () => {
-		const date = new Date('2017-03-19');
+		const date = new Date(2017, 2, 19);
 		const expectedResult = {
 			currentDay: 19,
-			currentMonth: 3,
+			currentMonth: 2,
 			currentYear: 2017
 		};
 
 		expect(getDataFromDate(date)).toEqual(expectedResult);
 	});
 
-	it.skip('should test subtractMonth');
-	it.skip('should test addMonth');
-	it.skip('should test getMonthAndYear');
-	it.skip('should test getCurrentMonthString');
+	it('should test subtractMonth', () => {
+		const date = new Date(2017, 0, 1);
+		const result = subtractMonth(date);
+
+		expect(result.getMonth()).toEqual(11);
+		expect(result.getFullYear()).toEqual(2016);
+	});
+
+	it('should test addMonth', () => {
+		const date = new Date(2017, 11, 1);
+		const result = addMonth(date);
+
+		expect(result.getMonth()).toEqual(0);
+		expect(result.getFullYear()).toEqual(2018);
+	});
+
+	it('should test getMonthAndYear', () => {
+		const date = new Date(2017, 2, 19);
+
+		expect(getMonthAndYear(date)).toEqual('2017-2');
+	});
+
+	it('should test getCurrentMonthString', () => {
+		const date = new Date('2017-03-19');
+
+		expect(getCurrentMonthString(date)).toEqual('Mar 2017');
+	});
 });
