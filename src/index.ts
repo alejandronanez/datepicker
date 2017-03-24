@@ -27,10 +27,10 @@ const calendarContainer: HTMLElement | null = document.getElementById('calendar-
 const bodyElement: HTMLBodyElement | null = document.querySelector('body');
 const closeButton: HTMLElement | null = document.getElementById('close-overlay');
 
-const main$ = new Subject<Date>();
-
 const calendarInput$ = Observable.fromEvent(calendarElement, 'click');
 const closeButton$ = Observable.fromEvent(closeButton, 'click');
+
+const main$ = new Subject<Date>();
 
 const calendar$ = main$
 	.map(getDataFromDate)
@@ -53,21 +53,24 @@ Observable
 
 // http://stackoverflow.com/a/27069598/1405803
 const dayClick$ = calendar$
-	.map(elements => Observable.from(Array.from(document.querySelectorAll('.day-item'))))
+	.map(() => Observable.from(Array.from(document.querySelectorAll('.day-item'))))
 	.flatMap(elements => Observable.from(elements))
 	.flatMap(element => Observable.fromEvent(element, 'click'))
 	.map((evt: any) => parseInt(evt.target.value))
 	.map((formattedDate: number) => new Date(formattedDate));
 
-// TODO: Prev Month Click / Next Month Click
 const dateChanger$ = datePicker$
-	.map(elements => Observable.from(Array.from(document.querySelectorAll('.date-changer'))))
+	.map(() => Observable.from(Array.from(document.querySelectorAll('.date-changer'))))
 	.flatMap(elements => Observable.from(elements))
 	.flatMap(element => Observable.fromEvent(element, 'click'))
 	.map((evt: any) => evt.target.value)
 	.map(generateDateForDateChanger)
-	.map((date: any) => getFullMonth({ year: date.year, month: date.month }))
-	.subscribe(console.log);
+	.map((date: any) => getFullMonth({ year: date.year, month: date.month }));
+
+
+//////////////////
+// SIDE EFFECTS //
+//////////////////
 
 closeButton$.subscribe(() => closeCalendar(calendarContainer, bodyElement));
 calendarInput$.subscribe((evt: any) => evt.target.value ? main$.next(new Date(evt.target.value)) : main$.next(new Date()));
