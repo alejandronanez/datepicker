@@ -81,6 +81,22 @@ input[type='radio'] {
 	display: none;
 }
 
+.navigator {
+	display: flex;
+	align-items: center;
+
+	h2 {
+		margin-left: 10px;
+		margin-right: 10px;
+	}
+
+	span {
+		display: inline-block;
+		cursor: pointer;
+		font-size: 25px;
+	}
+}
+
 .is-open {
 
 	input[type='text'] {
@@ -104,9 +120,9 @@ input[type='radio'] {
 	}
 
 	#calendar-container {
+		align-items: center;
 		display: flex;
-		// align-items: center;
-		justify-content: center;
+		flex-direction: column;
 		position: relative;
 		z-index: 2;
 	}

@@ -28,6 +28,7 @@ describe('DOM Helpers', () => {
 						type="radio"
 						value="12345"
 						name="day"
+						class="day-item"
 					/>
 					<span>1</span>
 				</label>
@@ -53,6 +54,7 @@ describe('DOM Helpers', () => {
 						type="radio"
 						value="12345"
 						name="day"
+						class="day-item"
 					/>
 					<span>1</span>
 				</label>
@@ -78,6 +80,7 @@ describe('DOM Helpers', () => {
 						type="radio"
 						value="12345"
 						name="day"
+						class="day-item"
 					/>
 					<span>1</span>
 				</label>
@@ -103,6 +106,7 @@ describe('DOM Helpers', () => {
 						type="radio"
 						value="12345"
 						name="day"
+						class="day-item"
 					/>
 					<span>1</span>
 				</label>
@@ -137,12 +141,12 @@ describe('DOM Helpers', () => {
 		const expectedResult = `
 			<div class="navigator">
 				<label class="month-arrows" for="previous-month">
-					<input type="radio" name="name-navigator" value="123" />
+					<input type="radio" name="name-navigator" id="previous-month" class="date-changer" value="123" />
 					<span><</span>
 				</label>
 				<h2>456</h2>
-				<label class="month-arrows" for="previous-month">
-					<input type="radio" name="name-navigator" value="789" />
+				<label class="month-arrows" for="next-month">
+					<input type="radio" name="name-navigator" id="next-month" class="date-changer" value="789" />
 					<span>></span>
 				</label>
 			</div>

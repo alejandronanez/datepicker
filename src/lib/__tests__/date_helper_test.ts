@@ -165,7 +165,7 @@ describe('Date Helpers', () => {
 	});
 
 	it('should test getCurrentMonthString', () => {
-		const date = new Date('2017-03-19');
+		const date = new Date(2017, 2, 10);
 
 		expect(getCurrentMonthString(date)).toEqual('Mar 2017');
 	});

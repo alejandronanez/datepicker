@@ -177,13 +177,17 @@ export function getDataFromDate(date: Date) {
 };
 
 export function subtractMonth(date: Date): Date {
-	const newDate = date.setMonth(date.getMonth() - 1);
+	const newDate = new Date(date.getTime());
+
+	newDate.setMonth(newDate.getMonth() - 1);
 
 	return new Date(newDate);
 }
 
 export function addMonth(date: Date): Date {
-	const newDate = date.setMonth(date.getMonth() + 1);
+	const newDate = new Date(date.getTime());
+
+	newDate.setMonth(newDate.getMonth() + 1);
 
 	return new Date(newDate);
 }
@@ -209,4 +213,13 @@ export function getCurrentMonthString(date: Date): string {
 	];
 
 	return `${months[getCurrentMonth(date)]} ${getCurrentYear(date)}`;
+}
+
+export function generateDateForDateChanger(date: string) {
+	const splitDate = date.split('-').map(x => parseInt(x));
+
+	return {
+		year: splitDate[0],
+		month: splitDate[1]
+	}
 }
