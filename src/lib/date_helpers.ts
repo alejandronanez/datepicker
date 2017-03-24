@@ -137,13 +137,13 @@ export function getMonthLastWeek(currentYear: number, currentMonth: number, mont
 		.apply(null, { length: arrayLength })
 		.map((day: null, index: number) => {
 			const nextYear = currentMonth === 11 ? currentYear + 1 : currentYear;
-			const nextMonth = currentMonth === 11 ? 0 : currentMonth;
+			const nextMonth = currentMonth === 11 ? 0 : currentMonth + 1;
 			const dayItem = new DayItem({
 				dayOfTheWeek: dayIndex,
 				dayInCalendar: index + 1,
 				isActive: true,
 				isCurrentDay: false,
-				dateString: new Date(nextYear, nextMonth + 1, index + 1).getTime()
+				dateString: new Date(nextYear, nextMonth, index + 1).getTime()
 			});
 
 			dayIndex++;
@@ -175,3 +175,51 @@ export function getDataFromDate(date: Date) {
 		currentYear: getCurrentYear(date)
 	};
 };
+
+export function subtractMonth(date: Date): Date {
+	const newDate = new Date(date.getTime());
+
+	newDate.setMonth(newDate.getMonth() - 1);
+
+	return new Date(newDate);
+}
+
+export function addMonth(date: Date): Date {
+	const newDate = new Date(date.getTime());
+
+	newDate.setMonth(newDate.getMonth() + 1);
+
+	return new Date(newDate);
+}
+
+export function getMonthAndYear(date: Date): string {
+	return `${getCurrentYear(date)}-${getCurrentMonth(date)}`;
+}
+
+export function getCurrentMonthString(date: Date): string {
+	const months = [
+		'Jan',
+		'Feb',
+		'Mar',
+		'Apr',
+		'May',
+		'Jun',
+		'Jul',
+		'Aug',
+		'Sep',
+		'Oct',
+		'Nov',
+		'Dec'
+	];
+
+	return `${months[getCurrentMonth(date)]} ${getCurrentYear(date)}`;
+}
+
+export function generateDateForDateChanger(date: string) {
+	const splitDate = date.split('-').map(x => parseInt(x));
+
+	return {
+		year: splitDate[0],
+		month: splitDate[1]
+	}
+}

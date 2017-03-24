@@ -3,7 +3,8 @@ import * as dedent from 'dedent-js';
 import {
 	renderTd,
 	renderTr,
-	renderTable
+	renderTable,
+	generateNavigation
 } from '../dom_helpers';
 
 import {
@@ -11,23 +12,25 @@ import {
 } from '../date_helpers';
 
 
-describe.skip('DOM Helpers', () => {
+describe('DOM Helpers', () => {
 	it('should render a td. No current day and No Active day', () => {
 		const dayItem = new DayItem({
 			dayInCalendar: 1,
 			dayOfTheWeek: 1,
 			isCurrentDay: false,
-			isActive: false
+			isActive: false,
+			dateString: 12345
 		});
 		const expectedResult = `
 			<td class="day is-inactive">
 				<label>
 					<input
 						type="radio"
-						value="1"
+						value="12345"
 						name="day"
+						class="day-item"
 					/>
-					1
+					<span>1</span>
 				</label>
 			</td>
 		`;
@@ -41,17 +44,19 @@ describe.skip('DOM Helpers', () => {
 			dayInCalendar: 1,
 			dayOfTheWeek: 1,
 			isCurrentDay: false,
-			isActive: true
+			isActive: true,
+			dateString: 12345
 		});
 		const expectedResult = `
 			<td class="day is-active">
 				<label>
 					<input
 						type="radio"
-						value="1"
+						value="12345"
 						name="day"
+						class="day-item"
 					/>
-					1
+					<span>1</span>
 				</label>
 			</td>
 		`;
@@ -65,17 +70,19 @@ describe.skip('DOM Helpers', () => {
 			dayInCalendar: 1,
 			dayOfTheWeek: 1,
 			isCurrentDay: true,
-			isActive: true
+			isActive: true,
+			dateString: 12345
 		});
 		const expectedResult = `
 			<td class="day is-active is-selected">
 				<label>
 					<input
 						type="radio"
-						value="1"
+						value="12345"
 						name="day"
+						class="day-item"
 					/>
-					1
+					<span>1</span>
 				</label>
 			</td>
 		`;
@@ -89,15 +96,17 @@ describe.skip('DOM Helpers', () => {
 			dayInCalendar: 1,
 			dayOfTheWeek: 1,
 			isCurrentDay: true,
-			isActive: false
+			isActive: false,
+			dateString: 12345
 		});
 		const expectedResult = `
 			<td class="day is-inactive is-selected">
 				<label>
 					<input
 						type="radio"
-						value="1"
+						value="12345"
 						name="day"
+						class="day-item"
 					/>
 					<span>1</span>
 				</label>
@@ -121,5 +130,28 @@ describe.skip('DOM Helpers', () => {
 		const expectedResult = `<table>${weekdaysRow}<tr><td>foo</td></tr><tr><td>bar</td></tr></table>`
 
 		expect(result).toEqual(expectedResult);
+	});
+
+	it('generateNavigation', () => {
+		const options = {
+			previousDate: '123',
+			currentDate: '456',
+			nextDate: '789'
+		};
+		const expectedResult = `
+			<div class="navigator">
+				<label class="month-arrows" for="previous-month">
+					<input type="radio" name="name-navigator" id="previous-month" class="date-changer" value="123" />
+					<span><</span>
+				</label>
+				<h2>456</h2>
+				<label class="month-arrows" for="next-month">
+					<input type="radio" name="name-navigator" id="next-month" class="date-changer" value="789" />
+					<span>></span>
+				</label>
+			</div>
+		`;
+
+		expect(dedent(generateNavigation(options))).toEqual(dedent(expectedResult));
 	});
 });

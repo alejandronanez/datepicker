@@ -24,6 +24,7 @@ export function renderTd(dayItem: DayItem): string {
 					type="radio"
 					value="${dayItem.dateString}"
 					name="day"
+					class="day-item"
 				/>
 				<span>${dayItem.dayInCalendar}</span>
 			</label>
@@ -55,4 +56,28 @@ export function closeCalendar(calendarNode: HTMLElement, bodyNode: HTMLElement) 
 export function openCalendar(data: string, calendarNode: HTMLElement, bodyNode: HTMLElement) {
 	calendarNode.innerHTML = data;
 	bodyNode.classList.add('is-open');
+}
+
+export function generateNavigation({
+	previousDate,
+	currentDate,
+	nextDate
+}: {
+	previousDate: string,
+	currentDate: string,
+	nextDate: string
+}): string {
+	return `
+		<div class="navigator">
+			<label class="month-arrows" for="previous-month">
+				<input type="radio" name="name-navigator" id="previous-month" class="date-changer" value="${previousDate}" />
+				<span><</span>
+			</label>
+			<h2>${currentDate}</h2>
+			<label class="month-arrows" for="next-month">
+				<input type="radio" name="name-navigator" id="next-month" class="date-changer" value="${nextDate}" />
+				<span>></span>
+			</label>
+		</div>
+	`;
 }
