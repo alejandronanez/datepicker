@@ -134,9 +134,9 @@ describe('Date Helpers', () => {
 	it('should return the right object after passing a valid date', () => {
 		const date = new Date(2017, 2, 19);
 		const expectedResult = {
-			currentDay: 19,
-			currentMonth: 2,
-			currentYear: 2017
+			day: 19,
+			month: 2,
+			year: 2017
 		};
 
 		expect(getDataFromDate(date)).toEqual(expectedResult);
