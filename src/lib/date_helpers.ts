@@ -1,8 +1,4 @@
-import {
-	partial,
-	flowRight,
-	chunk
-} from 'lodash';
+import { chunk } from 'lodash';
 
 interface DateObj {
 	year: number;
