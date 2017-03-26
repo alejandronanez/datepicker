@@ -31,28 +31,28 @@ const closeButton: HTMLElement | null = document.getElementById('close-overlay')
 
 const closeButton$ = Observable.fromEvent(closeButton, 'click');
 
-const main$ = new Subject<DayItem[][]>();
+const main$ = new Subject();
 
-// Get DayITem[][] form what is in the calendar input
+// Calendar Input Element Stream
 const calendarInput$ = Observable
 	.fromEvent(calendarInputElement, 'click')
-	.map((e: any): string => e.target.value ? e.target.value : new Date().toDateString())
-	.map((dateString: string): Date => new Date(dateString));
+	.map((e: any): string => e.target.value)
+	.map((value: string): any => value ? getDataFromDate(new Date(value)) : { month: getCurrentMonth(new Date()), year: getCurrentYear(new Date()) })
+	.subscribe(value => main$.next(value));
 
-const calendarData$ = calendarInput$
-	.map(getDataFromDate)
-	.map(getFullMonth);
-
-// Get month navigator from what is in the calendar input
-const monthNavigator$ = calendarInput$
+// Month Navigator Stream
+const monthNavigator$ = main$
+	.map((data: any) => new Date(data.year, data.month))
 	.map((date: Date) => ({
 		previousDate: getMonthAndYear(subtractMonth(date)),
 		currentDate: getCurrentMonthString(date),
 		nextDate: getMonthAndYear(addMonth(date))
 	}));
 
-// HTML Generated from calendarData$ and monthNavigator$
-const calendarHTML$ = calendarData$.map(getCalendarTableHTML);
+// HTML Streams
+const calendarHTML$ = main$
+	.map(getFullMonth)
+	.map(getCalendarTableHTML);
 const monthNavigatorHTML$ = monthNavigator$.map(generateNavigation);
 const completeCalendarHTML$ = Observable
 	.combineLatest(monthNavigatorHTML$, calendarHTML$)
@@ -60,7 +60,7 @@ const completeCalendarHTML$ = Observable
 
 completeCalendarHTML$.subscribe(data => openCalendar(data, calendarContainer, bodyElement));
 
-// Listen for clicks on days of the calendar
+// Calendar Day Stream
 // http://stackoverflow.com/a/27069598/1405803
 const dayClick$ = completeCalendarHTML$
 	.map(() => Observable.from(Array.from(document.querySelectorAll('.day-item'))))
@@ -74,21 +74,25 @@ dayClick$.subscribe(newDate => {
 	calendarInputElement.value = new Date(newDate).toDateString();
 });
 
-// Listen for clicks on date changer < [Month] >
+// Month changer < [Month] > Streams
 const dateChangerArrows$ = completeCalendarHTML$
 	.map(() => Observable.from(Array.from(document.querySelectorAll('.date-changer'))))
 	.flatMap(elements => Observable.from(elements))
 	.flatMap(element => Observable.fromEvent(element, 'click'))
 	.map((evt: any) => {
+		evt.stopPropagation();
+
 		const arrowValue = evt.target.value;
+		const [year, month] = arrowValue.split('-');
 
-		debugger;
-
-		return arrowValue;
+		return new Date(year, month);
 	})
-	.map((formattedDate: number) => new Date(formattedDate));
+	.map((date: Date) => ({
+		month: getCurrentMonth(date),
+		year: getCurrentYear(date)
+	}));
 
-dateChangerArrows$.subscribe(console.log);
-// Close calendar on X
+dateChangerArrows$.subscribe(value => main$.next(value));
+
+// Close Calendar Stream
 closeButton$.subscribe(() => closeCalendar(calendarContainer, bodyElement));
-
