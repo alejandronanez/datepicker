@@ -5,6 +5,9 @@ This project was built using _mainly_
 - Typescript 2.2.1
 - Jest
 
+## Mobile view
+![Datepicker](datepicker-mobile.gif)
+
 ## What was my motivation?
 TL;DR -> I want to learn RxJS
 
