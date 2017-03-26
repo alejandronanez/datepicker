@@ -27,7 +27,7 @@ import {
 const calendarInputElement: any | null = document.getElementById('calendar');
 const calendarContainer: HTMLElement | null = document.getElementById('calendar-container');
 const bodyElement: HTMLBodyElement | null = document.querySelector('body');
-const closeButton: HTMLElement | null = document.getElementById('close-overlay');
+const closeButton: any | null = document.querySelector('.close-overlay');
 
 const closeButton$ = Observable.fromEvent(closeButton, 'click');
 

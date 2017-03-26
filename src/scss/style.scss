@@ -32,12 +32,17 @@ a {
 	}
 }
 
+h2 {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
 input[type='text'] {
 	border: 1px solid $lightBlue;
 	color: $inactive;
 	font-size: 1em;
 	height: 2em;
-	width: 100%;
+	width: 99%;
 }
 
 input[type='radio'] {
@@ -77,13 +82,15 @@ input[type='radio'] {
 	transition: .2s ease-in all;
 }
 
-#close-overlay {
+.close-overlay {
 	display: none;
 }
 
 .navigator {
 	display: flex;
 	align-items: center;
+	margin-bottom: 1em;
+	margin-top: 1em;
 
 	h2 {
 		margin-left: 10px;
@@ -127,7 +134,7 @@ input[type='radio'] {
 		z-index: 2;
 	}
 
-	#close-overlay {
+	.close-overlay {
 		display: inline-block;
 		position: absolute;
 		top: 20px;
@@ -143,7 +150,44 @@ input[type='radio'] {
 
 // Desktop only
 @media screen and (min-width: 1024px) {
-	.is-open #close-overlay {
+	body {
+		height: initial;
+	}
+
+	#app {
+		margin: 0 auto;
+		width: 350px;
+	}
+
+	.is-open {
+		.close-overlay {
+			display: none;
+		}
+
+		input[type='text'] {
+			display: inline-block;
+		}
+
+		#calendar-container {
+			border: 1px solid $lightBlue;
+			height: initial;
+		}
+	}
+
+	#overlay {
 		display: none;
+	}
+
+	form {
+		position: relative;
+	}
+
+	#calendar-container {
+		margin-top: 5px;
+		border-radius: 5px;
+	}
+
+	table {
+		padding-bottom: 1em;
 	}
 }
