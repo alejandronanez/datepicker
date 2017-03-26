@@ -1,8 +1,4 @@
-import {
-	partial,
-	flowRight,
-	chunk
-} from 'lodash';
+import { chunk } from 'lodash';
 
 interface DateObj {
 	year: number;
@@ -15,7 +11,7 @@ interface FullDateObj {
 	day: number
 };
 
-interface FullMonthObj {
+export interface FullMonthObj {
 	year: number;
 	month: number;
 	day?: number
@@ -170,9 +166,9 @@ export function getFullMonth({ year, month, day = null }: FullMonthObj): DayItem
 
 export function getDataFromDate(date: Date) {
 	return {
-		currentDay: getCurrentDay(date),
-		currentMonth: getCurrentMonth(date),
-		currentYear: getCurrentYear(date)
+		day: getCurrentDay(date),
+		month: getCurrentMonth(date),
+		year: getCurrentYear(date)
 	};
 };
 
