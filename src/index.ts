@@ -1,6 +1,10 @@
 import './scss/style.scss';
 
-import { Observable, Subject } from 'rxjs';
+import {
+	Observable,
+	Subject,
+	Subscription
+} from 'rxjs';
 
 import {
 	getFullMonth,
@@ -13,8 +17,10 @@ import {
 	getMonthAndYear,
 	getCurrentMonthString,
 	generateDateForDateChanger,
-	FullMonthObj,
-	DayItem
+	// Interfaces
+	FullDate,
+	DayItem,
+	MonthChanger
 } from './lib/date_helpers';
 import {
 	getCalendarTableHTML,
@@ -24,25 +30,27 @@ import {
 } from './lib/dom_helpers';
 
 // DOM ELEMENTS
-const calendarInputElement: any | null = document.getElementById('calendar');
+const calendarInputElement: any = document.getElementById('calendar'); // TODO: Fix 'any'
 const calendarContainer: HTMLElement | null = document.getElementById('calendar-container');
 const bodyElement: HTMLBodyElement | null = document.querySelector('body');
-const closeButton: any | null = document.querySelector('.close-overlay');
+const closeButton: any = document.querySelector('.close-overlay'); // TODO: Fix 'any'
 
 const closeButton$ = Observable.fromEvent(closeButton, 'click');
 
-const main$ = new Subject();
+const main$: Subject<any> = new Subject();
 
 // Calendar Input Element Stream
-const calendarInput$ = Observable
+const calendarInput$: Subscription = Observable
 	.fromEvent(calendarInputElement, 'click')
+	// TODO: Fix 'any'
 	.map((e: any): string => e.target.value)
+	// TODO: Fix 'any'
 	.map((value: string): any => value ? getDataFromDate(new Date(value)) : { month: getCurrentMonth(new Date()), year: getCurrentYear(new Date()) })
 	.subscribe(value => main$.next(value));
 
 // Month Navigator Stream
 const monthNavigator$ = main$
-	.map((data: any) => new Date(data.year, data.month))
+	.map((data: FullDate) => new Date(data.year, data.month))
 	.map((date: Date) => ({
 		previousDate: getMonthAndYear(subtractMonth(date)),
 		currentDate: getCurrentMonthString(date),
@@ -53,7 +61,9 @@ const monthNavigator$ = main$
 const calendarHTML$ = main$
 	.map(getFullMonth)
 	.map(getCalendarTableHTML);
+
 const monthNavigatorHTML$ = monthNavigator$.map(generateNavigation);
+
 const completeCalendarHTML$ = Observable
 	.combineLatest(monthNavigatorHTML$, calendarHTML$)
 	.map(resultHTML => resultHTML.join(''));
@@ -65,11 +75,12 @@ completeCalendarHTML$.subscribe(data => openCalendar(data, calendarContainer, bo
 const dayClick$ = completeCalendarHTML$
 	.map(() => Observable.from(Array.from(document.querySelectorAll('.day-item'))))
 	.flatMap(elements => Observable.from(elements))
-	.flatMap(element => Observable.fromEvent(element, 'click'))
+	.flatMap((element) => Observable.fromEvent(element, 'click'))
+	// TODO: Fix 'any'
 	.map((evt: any) => parseInt(evt.target.value))
 	.map((formattedDate: number) => new Date(formattedDate));
 
-dayClick$.subscribe(newDate => {
+dayClick$.subscribe((newDate: Date) => {
 	closeCalendar(calendarContainer, bodyElement);
 	calendarInputElement.value = new Date(newDate).toDateString();
 });
@@ -79,6 +90,7 @@ const dateChangerArrows$ = completeCalendarHTML$
 	.map(() => Observable.from(Array.from(document.querySelectorAll('.date-changer'))))
 	.flatMap(elements => Observable.from(elements))
 	.flatMap(element => Observable.fromEvent(element, 'click'))
+	// TODO: Fix 'any'
 	.map((evt: any) => {
 		evt.stopPropagation();
 
