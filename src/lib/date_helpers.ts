@@ -1,21 +1,19 @@
 import { chunk } from 'lodash';
 
-interface DateObj {
-	year: number;
-	month: number;
-};
+const MAX_DAY_OF_WEEK: number = 6;
+const MIN_DAY_OF_WEEK: number = 0;
 
-interface FullDateObj {
-	year: number;
-	month: number;
-	day: number
-};
-
-export interface FullMonthObj {
+export interface FullDate {
 	year: number;
 	month: number;
 	day?: number
 };
+
+export interface MonthChanger {
+	previousDate: string;
+	currentDate: string;
+	nextDate: string
+}
 
 interface DayItemInterface {
 	dayOfTheWeek: number;
@@ -24,9 +22,6 @@ interface DayItemInterface {
 	isCurrentDay: boolean;
 	dateString: number;
 };
-
-const MAX_DAY_OF_WEEK: number = 6;
-const MIN_DAY_OF_WEEK: number = 0;
 
 export class DayItem implements DayItemInterface {
 	dayOfTheWeek: number;
@@ -62,11 +57,11 @@ export function getCurrentDay(date: Date): number {
 	return date.getDate();
 }
 
-export function getTotalDaysInAMonth({ year, month }: DateObj): number {
+export function getTotalDaysInAMonth({ year, month }: FullDate): number {
 	return new Date(year, month + 1, 0).getDate();
 }
 
-export function getDayInTheWeek({ year, month, day }: FullDateObj): number {
+export function getDayInTheWeek({ year, month, day }: FullDate): number {
 	return new Date(year, month, day).getDay();
 };
 
@@ -88,7 +83,11 @@ export function getMonthArray(year: number, month: number, day: number | null): 
 		));
 }
 
-export function getMonthFirstWeek(currentYear: number, currentMonth: number, monthData: DayItem[]): DayItem[] {
+export function getMonthFirstWeek(
+	currentYear: number,
+	currentMonth: number,
+	monthData: DayItem[]
+): DayItem[] {
 	const { dayOfTheWeek } = monthData[0];
 	const previousMonth = currentMonth === 0 ? 11 : currentMonth - 1;
 
@@ -101,7 +100,7 @@ export function getMonthFirstWeek(currentYear: number, currentMonth: number, mon
 
 	const firstDays = Array
 		.apply(null, { length: dayOfTheWeek })
-		.map((day: null, index: number) => {
+		.map((day: null, index: number): DayItem => {
 			const year = previousMonth === 11 ? currentYear - 1 : currentYear;
 			const dayItem = new DayItem({
 				dayOfTheWeek: index,
@@ -119,7 +118,11 @@ export function getMonthFirstWeek(currentYear: number, currentMonth: number, mon
 	return [...firstDays, ...monthData];
 }
 
-export function getMonthLastWeek(currentYear: number, currentMonth: number, monthData: DayItem[]): DayItem[] {
+export function getMonthLastWeek(
+	currentYear: number,
+	currentMonth: number,
+	monthData: DayItem[]
+): DayItem[] {
 	const { dayOfTheWeek } = monthData[monthData.length - 1];
 
 	if (dayOfTheWeek === MAX_DAY_OF_WEEK) {
@@ -150,12 +153,12 @@ export function getMonthLastWeek(currentYear: number, currentMonth: number, mont
 	return [...monthData, ...lastDays];
 }
 
-export function splitMonthArrayInChunks(monthData: DayItem[]) {
+export function splitMonthArrayInChunks(monthData: DayItem[]): DayItem[][] {
 	// Each week have 7 days
 	return chunk(monthData, 7);
 }
 
-export function getFullMonth({ year, month, day = null }: FullMonthObj): DayItem[][] {
+export function getFullMonth({ year, month, day = null }: FullDate): DayItem[][] {
 	const monthArray = getMonthArray(year, month, day);
 	const monthFirstWeek = getMonthFirstWeek(year, month, monthArray);
 	const monthLastWeek = getMonthLastWeek(year, month, monthFirstWeek);
@@ -164,7 +167,7 @@ export function getFullMonth({ year, month, day = null }: FullMonthObj): DayItem
 	return result
 }
 
-export function getDataFromDate(date: Date) {
+export function getDataFromDate(date: Date): FullDate {
 	return {
 		day: getCurrentDay(date),
 		month: getCurrentMonth(date),
@@ -211,7 +214,7 @@ export function getCurrentMonthString(date: Date): string {
 	return `${months[getCurrentMonth(date)]} ${getCurrentYear(date)}`;
 }
 
-export function generateDateForDateChanger(date: string) {
+export function generateDateForDateChanger(date: string): FullDate {
 	const splitDate = date.split('-').map(x => parseInt(x));
 
 	return {
